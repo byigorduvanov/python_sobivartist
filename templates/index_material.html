@@ -2,29 +2,44 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
-    </form>
-<div>
-
-<div style="margin-top: 50px;" class="ui container">
-
-    <h1 class="ui center aligned header green">{{ 'ДОДАТИ МАТЕРІАЛ' }}</h1>
-
-    <form class="ui form" action="{{ url_for('addmaterial') }}" method="post">
-        <div class="field">
-            <label>Новий матеріал</label>
-            <input type="text" name="marka" placeholder="Марка матеріалу"><br>
-            <input type="text" name="profile" placeholder="Профіль"><br>
-            <input type="text" name="weight" placeholder="Вага п/м"><br>
-            <input type="text" name="price" placeholder="Ціна"><br>            
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="addall"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal button" type="submit">На головну</button></a>
         </div>
-        <button class="ui teal basic button" type="submit">Добавити</button>
-    </form>
+    </div>
+
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ МАТЕРІАЛ' }}</h1>
+
+        <form class="ui large form" action="{{ url_for('addmaterial') }}" method="post">
+            <div class="ui segment">
+                <div class="field">
+                    <label>Новий матеріал</label>
+                    <div class="ui input">
+                        <input type="text" name="marka" placeholder="Марка матеріалу">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="profile" placeholder="Профіль">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="weight" placeholder="Вага п/м">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="price" placeholder="Ціна">
+                    </div>
+                </div>
+                <button class="ui fluid large teal submit button" type="submit">Добавити</button>
+            </div>
+        </form>
+    </div>
 </div>
-
-
 
 {% endblock content %}

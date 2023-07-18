@@ -13,7 +13,16 @@ from openpyxl import load_workbook
 @app.get('/')
 def home(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
-
+@app.get('/addall')
+def addall(request: Request, db_session: Session = Depends(get_db)):
+    materials = db_session.query(Material).all()
+    details = db_session.query(Detail).all()
+    collectives = db_session.query(Collective).all()
+    return templates.TemplateResponse('index_addall.html',
+                                      {'request': request,
+                                       'detail_list': details,
+                                       'material_list': materials,}
+                                      )
 @app.get('/updetdetail')
 def updetdetail(request: Request, db_session: Session = Depends(get_db)):
     details = db_session.query(Detail).all()
@@ -97,20 +106,6 @@ def cost(request: Request, db_session: Session = Depends(get_db)):
                                        'specification_list':specifications,
                                        'cost_list': costs}
                                       )
-
-
-@app.get('/addall')
-def addall(request: Request, db_session: Session = Depends(get_db)):
-    materials = db_session.query(Material).all()
-    details = db_session.query(Detail).all()
-    collectives = db_session.query(Collective).all()
-    return templates.TemplateResponse('index_addall.html',
-                                      {'request': request,
-                                       'detail_list': details,
-                                       'material_list': materials,}
-                                      )
-
-
 @app.get('/zminu')
 def zminu(request: Request, db_session: Session = Depends(get_db)):
     return templates.TemplateResponse('index_zminu.html',

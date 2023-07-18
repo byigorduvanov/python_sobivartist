@@ -6,19 +6,17 @@ from datetime import datetime
 
 class Material(Base):
     __tablename__ = 'materials'
-
     id = Column(Integer, primary_key=True, index=True)                      #
     marka = Column(String)                                                  # Марка матеріалу
     profile = Column(String)                                                # Профіль
     weight= Column(Float)                                                   # Вага п/м
     price= Column(Float)                                                    # Ціна за 1т.
     notes = Column(String)                                                  #
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.today)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 Base.metadata.create_all(bind=engine)
 class Detail(Base):
     __tablename__ = 'details'
-
     id = Column(Integer, primary_key=True, index=True)                      #
     coding = Column(VARCHAR(13))                                            # Кодування
     name = Column(String)                                                   # Найменування
@@ -31,8 +29,8 @@ class Detail(Base):
     rate_costs = Column(Float)                                              # Норма розтрат, мм.
     notes = Column(String)
     price = Column(Float)                                                   # ціна
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.utcnow)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
     Material = relationship("Material")
 Base.metadata.create_all(bind=engine)
 class Detail_change(Base):
@@ -50,16 +48,16 @@ class Detail_change(Base):
     rate_costs = Column(Float)                                              # Норма розтрат, мм.
     notes = Column(String)
     price = Column(Float)                                                   # ціна
-    date_created = Column(String)
-    date_updated = Column(String)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 Base.metadata.create_all(bind=engine)
 class Serie(Base):
     __tablename__ = 'series'
     id = Column(Integer, primary_key=True, index=True)                      
     name_serie = Column(String)                                             # Назва серії кранів
     notes = Column(String)                                                  # 
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.utcnow)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 Base.metadata.create_all(bind=engine)
 class Vavle(Base):
     __tablename__ = 'vavles'
@@ -69,8 +67,8 @@ class Vavle(Base):
     Serie = relationship("Serie")
     Detail = relationship("Detail")
     notes = Column(String)
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.utcnow)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 Base.metadata.create_all(bind=engine)
 class Collective(Base):
     __tablename__ = 'colectives'
@@ -81,8 +79,8 @@ class Collective(Base):
     detail_id = Column(Integer)                                             # Кодування деталі    
     number = Column(Float)                                                  # Кількість деталей в зборці
     notes = Column(String)                                                  # 
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.utcnow)         
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)         
     Detail = relationship("Detail")
 Base.metadata.create_all(bind=engine)
 class Norm_year(Base):
@@ -92,10 +90,11 @@ class Norm_year(Base):
     norm_year_coding = Column(VARCHAR(13))                                  # Кодування        
     norm_years = Column(Float)                                              # Нормо-годин
     notes = Column(String)                                                  # 
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.utcnow)         
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)         
     Detail = relationship("Detail")
 Base.metadata.create_all(bind=engine)
+
 class Material_coming(Base):
     __tablename__ = 'material_comings'
     id = Column(Integer, primary_key=True, index=True)                      #
@@ -103,7 +102,37 @@ class Material_coming(Base):
     price= Column(Float)  
     availability = Column (Float)                                           # Кількість приходу
     notes = Column(String)                                                  # Номер документу (Накладна, партія)
-    date_created = Column(DateTime(), default=datetime.utcnow)
-    date_updated = Column(DateTime(), default=datetime.today)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
     Material = relationship("Material")
+Base.metadata.create_all(bind=engine)
+
+class Detail_m_k(Base):
+    __tablename__ = 'detail_m_k'
+    id = Column(Integer, primary_key=True, index=True)
+    detail_id = Column(Integer, ForeignKey("details.id"))
+    name = Column(String)
+    notes = Column(String)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+Base.metadata.create_all(bind=engine)
+
+class Operations(Base):
+    __tablename__ = 'operations'
+    id = Column(Integer, primary_key=True, index=True)
+    detail_id = Column(Integer, ForeignKey("details.id"))
+    name = Column(String)
+    notes = Column(String)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+Base.metadata.create_all(bind=engine)
+class Normu_kilkist(Base):
+    __tablename__ = 'normu_kilkist'
+    id = Column(Integer, primary_key=True, index=True)
+    id_operations = Column(Integer, ForeignKey("operations.id"))
+    kilkist = Column(String)
+    name = Column(String)
+    notes = Column(String)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 Base.metadata.create_all(bind=engine)

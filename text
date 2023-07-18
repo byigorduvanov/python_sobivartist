@@ -1,0 +1,23 @@
+python_sobivartist
+├───alembic/
+│   └───versions
+│   └───env.py
+├───database/
+│   ├───DB/
+│   └───__pycache__
+│   └───__init__.py
+│   └───base.py
+├───static/
+│   └───css/
+├───tables/
+│   └───__pycache__
+│   └───tables.py
+│   └───tables_zero.py
+├───.env
+├───alembic.ini
+├───templates/
+│   └───index.html
+├───config.py
+├───routes.py
+├───run.py
+└───main.py

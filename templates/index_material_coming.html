@@ -2,34 +2,19 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
+<div class="ui container">
         <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
-    </form>
+
 </div>
 
-<head>
-    <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    </style>
-</head>
-
-<div style="margin-top: 50px;" class="ui container">
+<div class="ui container">
   <h1 class="ui center aligned header green">{{ 'Прихід метеріалу' }}</h1>
 
   <form class="ui form" action="{{ url_for('material_coming') }}" method="post">
     <div class="field">
     <label>ДЕТАЛЬ</label>
    
-    <input list="material_id" name="material_id" placeholder="_____________"> 
+    <input list="material_id" name="material_id" placeholder="id_material">
     <datalist id="material_id">           
     {% for material in material_list %}     
     <option value="{{ material.id }}">{{ material.marka }} {{ material.profile }}</option>
@@ -41,9 +26,8 @@
     <input type="text" name="notes" placeholder="Примітки"><br>
     <button class="ui teal basic button" type="submit">Додати прихід</button>
     </div>
+  </form>
 </div>
 
-</head>
-<body>
 
 {% endblock content %}

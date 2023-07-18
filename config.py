@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     db_url = os.getenv('SQLALCHEMY_DATABASE_URI')
 
     class Config:
-        env_file: str = '../.env'
+        env_file: str = '.env'
 
 
 settings = Settings()
