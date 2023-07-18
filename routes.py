@@ -1,40 +1,18 @@
-from email import header
-from itertools import count
-from sqlite3 import Row
 from fastapi import Request, Depends, Form
-from sqlalchemy import all_
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 from starlette.status import HTTP_303_SEE_OTHER, HTTP_302_FOUND
-from sqlalchemy import select
-
-
-from config import settings
 from database.base import get_db
 from main import app, templates
-from tables.tables import Collective, Od_vumir, Serie, Vavle, Material, Task, Detail, Norm_year, Detail_change, Material_coming, Operation, Operation_execution
+from tables.tables import Collective, Serie, Vavle, Material, Detail, Norm_year, Detail_change, Material_coming
 from tables.tables_zero import Specification, Cost
-from tables.tables import M_k, Perelik, Oblik
-
 import pandas as pd
 from openpyxl import load_workbook
-import openpyxl
-import os
-from sqlalchemy import DateTime
 
-@app.get('/proba1')
-def proba1(request: Request, db_session: Session = Depends(get_db)):
-    obliks = db_session.query(Oblik).all()
-    pereliks = db_session.query(Perelik).all()
-    m_ks = db_session.query(M_k).all()    
 
-    return templates.TemplateResponse('index_proba1.html',
-                                      {'request': request,
-                                       'oblik_list': obliks,  
-                                       'perelik_list': pereliks,     
-                                       'm_k_list': m_ks}
-                                      )
-
+@app.get('/')
+def home(request: Request):
+    return templates.TemplateResponse('index.html', {'request': request})
 
 @app.get('/updetdetail')
 def updetdetail(request: Request, db_session: Session = Depends(get_db)):
@@ -47,8 +25,6 @@ def updetdetail(request: Request, db_session: Session = Depends(get_db)):
                                        'detail_list': details,
                                        'detail_change_list': detail_changes}
                                       )
-
-
 @app.get('/norm_year')
 def norm_year(request: Request, db_session: Session = Depends(get_db)):
     details = db_session.query(Detail).all()
@@ -60,8 +36,6 @@ def norm_year(request: Request, db_session: Session = Depends(get_db)):
                                        'norm_year_list': norm_years,
                                        'cost_list': costs}
                                       )
-
-
 @app.get('/specification')
 def specification(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
@@ -75,8 +49,6 @@ def specification(request: Request, db_session: Session = Depends(get_db)):
                                        'collective_list':collectives,
                                        'specification_list':specifications}
                                       )
-
-
 @app.get('/collective')
 def collective(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
@@ -88,24 +60,6 @@ def collective(request: Request, db_session: Session = Depends(get_db)):
                                        'material_list': materials,
                                        'collective_list':collectives}
                                       )
-
-
-@app.get('/')
-def home(request: Request, db_session: Session = Depends(get_db)):
-    tasks = db_session.query(Task).all()
-    return templates.TemplateResponse('index.html',
-                                      {'request': request}
-                                      )
-
-
-@app.get('/task')
-def task(request: Request, db_session: Session = Depends(get_db)):
-    tasks = db_session.query(Task).all()
-    return templates.TemplateResponse('index_task.html',
-                                      {'request': request,
-                                       'task_list': tasks}
-                                      )
-
 
 @app.get('/detail')
 def detail(request: Request, db_session: Session = Depends(get_db)):
@@ -226,36 +180,6 @@ def material_coming(request: Request, db_session: Session = Depends(get_db)):
                                       'material_coming_list': material_comings}
                                      )
 
-@app.get('/operation_execution')
-def operation_execution(request: Request, db_session: Session = Depends(get_db)):
-    materials = db_session.query(Material).all()
-    material_comings = db_session.query(Material_coming).all()
-    details = db_session.query(Detail).all()
-    collectives = db_session.query(Collective).all()
-    operations = db_session.query(Operation).all()
-    vavles = db_session.query(Vavle).all()
-    specifications = db_session.query(Specification).all()
-    costs = db_session.query(Cost).all()    
-    return templates.TemplateResponse('index_operation_execution.html',
-                                      {'request': request,
-                                       'detail_list': details,
-                                       'material_list': materials,
-                                       'material_coming_list': material_comings,                                       
-                                       'operation_list': operations,                                       
-                                       'collective_list':collectives,
-                                       'specification_list':specifications,
-                                       'cost_list': costs}
-                                      )
-
-@app.post('/add')
-def add(title: str = Form(...), db_session: Session = Depends(get_db)):
-    new_task = Task(title=title)
-    db_session.add(new_task)
-    db_session.commit()
-
-    url = app.url_path_for('task')
-    return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
-
 
 @app.post('/adddetail')
 def adddetail(coding: str = Form(...), name: str = Form(...), product_type: str = Form(...), lenght_workpiece: str = Form(...), width_workpiece: str = Form(...), trimming: str = Form(...), lenght_detail: str = Form(...), rate_costs: str = Form(...),  material_id: int = Form(...), db_session: Session = Depends(get_db)):
@@ -301,24 +225,10 @@ def addmaterial(marka: str = Form(...), profile: str = Form(...), weight: float 
     return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
 
 
-@app.get('/update/{task_id}')
-def update(task_id: int, db_session: Session = Depends(get_db)):
-    task = db_session.query(Task).filter(Task.id == task_id).first()
-    task.is_complete = not task.is_complete
-    db_session.commit()
-
-    url = app.url_path_for('task')
-    return RedirectResponse(url=url, status_code=HTTP_302_FOUND)
 
 
-@app.get('/delete/{task_id}')
-def delete(task_id: int, db_session: Session = Depends(get_db)):
-    task = db_session.query(Task).filter_by(id=task_id).first()
-    db_session.delete(task)
-    db_session.commit()
 
-    url = app.url_path_for('task')
-    return RedirectResponse(url=url, status_code=HTTP_302_FOUND)
+
 
 
 @app.post('/collective')
@@ -511,34 +421,4 @@ def material_coming(material_id: int = Form(...), price: float = Form(...), avai
     db_session.commit()   
 
     url = app.url_path_for('material_coming')
-    return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
-
-@app.post('/operation_execution')
-def operation_execution(operation_id: int = Form(...), detail_id: int = Form(...), material_coming_id: int = Form(...), number: float = Form(...), db_session: Session = Depends(get_db)):
-    new_Operation_execution = Operation_execution(operation_id = operation_id, detail_id = detail_id, material_coming_id = material_coming_id, number = number)
-    db_session.add(new_Operation_execution)
-    db_session.commit()   
-
-    url = app.url_path_for('material_coming')
-    return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
-
-
-
-@app.post('/proba1')
-def proba1(db_session: Session = Depends(get_db)):
-    print('Перелік операцій та розходу')
-    for row in db_session.query(Oblik, Perelik, M_k, Od_vumir, Operation).filter(Oblik.operation == Operation.id, Oblik.od_vumir == Od_vumir.id, Oblik.perelik_id == Perelik.id, M_k.resurs == Perelik.id).filter(M_k.perelik_id == 10).group_by(Oblik.perelik_id):
-        print(row.Perelik.coding, row.Operation.name, row.Oblik.kst, row.Od_vumir.name, row.Oblik.resurs)
-    print ('+' * 30)
-  
-    print('Проба')    
-    for now in db_session.query(Oblik, Perelik).filter(Oblik.resurs == Perelik.id).group_by(Perelik.id):
-        print(now.Perelik.coding, now.Perelik.name) 
-    print ('*' * 30)
-
-    print('Норми часу')
-    for row in db_session.query(Oblik, Perelik, M_k, Od_vumir, Operation).filter(Oblik.operation == Operation.id, Oblik.od_vumir == Od_vumir.id, Oblik.perelik_id == Perelik.id, M_k.resurs == Perelik.id).filter(M_k.perelik_id == 10, Oblik.od_vumir == 3).group_by(Oblik.perelik_id):
-        print(row.Perelik.coding, row.Operation.name, row.Oblik.kst, row.Od_vumir.name)          
-
-    url = app.url_path_for('proba1')
     return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)

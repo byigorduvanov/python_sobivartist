@@ -1,17 +1,5 @@
-from enum import unique
-import imp
-from msilib.schema import Upgrade
-import string
-from turtle import update
-from unicodedata import numeric
-from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, VARCHAR, Numeric
-from traitlets import default
+from sqlalchemy import Column, String, Integer, Float
 from database.base import Base, engine
-from sqlalchemy.orm import relationship
-from sqlalchemy import DateTime
-from datetime import datetime
-
-
 
 class Specification(Base):
     __tablename__ = 'specifications'
