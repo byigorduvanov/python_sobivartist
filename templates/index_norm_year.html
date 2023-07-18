@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div style="margin-top: 50px;" class="ui container">
+    <body>  
+        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
+     </body>
+    </form>
+<div>
+
+<div style="margin-top: 50px;" class="ui container">
+
+    <h1 class="ui center aligned header green">{{ 'ДОДАТИ НОРМОВИТРИТИ' }}</h1>
+
+    <form class="ui form" action="{{ url_for('norm_year') }}" method="post">
+        <div class="field">
+            <label>Кодування деталі</label>
+                <input list="detail_id" name="detail_id"> 
+                <datalist id="detail_id">           
+                {% for detail in detail_list %}        
+                <option value="{{ detail.id }}">{{ detail.coding }}  {{ detail.name }}  </option>
+                {% endfor %}   
+                </datalist>            
+        <input type="text" name="norm_year_coding" placeholder="Кодування"><br>
+        <input type="text" name="norm_years" placeholder="Нормо години на 1 деталь"><br>
+
+            </select>
+            <button class="ui teal basic button" type="submit">Добавити нормовитрати</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

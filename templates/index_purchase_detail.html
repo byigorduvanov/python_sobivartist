@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div style="margin-top: 50px;" class="ui container">
+    <body>  
+        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
+     </body>
+    </form>
+<div>
+
+<div style="margin-top: 50px;" class="ui container">
+
+    <h1 class="ui center aligned header green">{{ 'ДОДАТИ ПОКУПНУ ДЕТАЛЬ' }}</h1>
+
+    <form class="ui form" action="{{ url_for('purchase_detail') }}" method="post">
+        <div class="field">
+            <label>Нова деталь</label>
+            <input type="text" name="coding" placeholder="Кодування"><br>
+            <input type="text" name="name" placeholder="Найменування"><br>
+            <input type="text" name="price" placeholder="Ціна за 1 штуку"><br>
+            <button class="ui teal basic button" type="submit">Добавити</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

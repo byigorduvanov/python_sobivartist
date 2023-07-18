@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<div class="topnav">
+    <a href="material">Додати матеріал</a>
+    <a href="detail">Додати деталь</a>
+    <a href="purchase_detail">Додати покупну деталь</a>    
+    <a href="collective">Додати збірну одиницю</a>
+    <a href="norm_year">Додати нормовитрати</a>
+    <a href="">Додати завдання</a>
+    <a href="material_coming">Прихід матеріалу</a>  
+    <a href="operation_execution">Виконання операцій</a>      
+    <a href="/">На головну</a>
+
+</div>
+
+{% endblock content %}

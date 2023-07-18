@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div style="margin-top: 50px;" class="ui container">
+    <body>  
+        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
+     </body>
+    </form>
+</div>
+
+<head>
+    <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    </style>
+</head>
+    <body>
+    
+    <h2>ДЕТАЛІ</h2>
+    <table style="width:50%">
+      <tr>
+        <th>ID</th>        
+        <th>Кодування</th>
+        <th>Найменування</th>
+        <th>Матеріал</th>
+      </tr>
+      <tr>
+        {% for detail in detail_list %}
+          <th> {{ detail.id }} </th>          
+          <th> {{ detail.coding }} </th>
+          <th> {{ detail.name }} </th>
+          <th> {{ detail.material_id }} </th>
+          </tr>
+        {% endfor %}
+    </table>
+    </body>
+{% endblock content %}

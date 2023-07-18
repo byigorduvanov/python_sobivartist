@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div style="margin-top: 50px;" class="ui container">
+    <body>  
+        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
+     </body>
+    </form>
+<div>
+
+<div style="margin-top: 50px;" class="ui container">
+
+    <h1 class="ui center aligned header green">{{ 'ДОДАТИ ДЕТАЛЬ' }}</h1>
+
+    <form class="ui form" action="{{ url_for('adddetail') }}" method="post">
+        <div class="field">
+            <label>Нова деталь</label>
+            <input type="text" name="coding" placeholder="Кодування"><br>
+            <input type="text" name="name" placeholder="Найменування"><br>
+
+            <input type="radio" name="product_type" value="1" checked> Деталь<br>
+            <input type="radio" name="product_type" value="3"> Збірна одиниця<br>
+            <input type="radio" name="product_type" value="4"> Готова продукція (КРАН)<br>
+      
+            <input type="text" name="lenght_workpiece" placeholder="Довжина заготовки"><br>
+            <input type="text" name="width_workpiece" placeholder="Ширина заготовки"><br>            
+            <input type="text" name="trimming" placeholder="Торцовка"><br>
+            <input type="text" name="lenght_detail" placeholder="Довжина деталі"><br>
+            <input type="text" name="rate_costs" placeholder="Норма розтрат"><br>
+            
+
+            <input list="material_id" name="material_id"  placeholder="Матеріал">
+            <datalist id="material_id">           
+                {% for material in material_list %}        
+                  <option value="{{ material.id }}">{{ material.marka }}  {{ material.profile }}</option>
+                {% endfor %}  
+            </datalist>
+            <button class="ui teal basic button" type="submit">Добавити</button>
+
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
