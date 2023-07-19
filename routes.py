@@ -97,7 +97,7 @@ def norm_yearall(request: Request, db_session: Session = Depends(get_db)):
 def revision(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
     details = db_session.query(Detail).all()
-    return templates.TemplateResponse('index_revision.html',
+    return templates.TemplateResponse('/revision/index_revision.html',
                                       {'request': request,
                                        'detail_list': details,
                                        'material_list': materials,}
