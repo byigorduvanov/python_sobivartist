@@ -14,6 +14,10 @@ python_sobivartist
 │   │   ├── zminu_router.py
 │   ├───add_all/
 │   │   ├── workshop_routers.py
+│   ├───revision/
+│   │   ├── revision_routers.py
+│   ├───sobivartist/
+│   │   ├── sobivartist_routers.py
 ├───tables/
 │   └───__pycache__
 │   └───tables.py
@@ -21,10 +25,15 @@ python_sobivartist
 ├───.env
 ├───alembic.ini
 ├───templates/
+│   ├───add_all/
+│   ├───revision/
+│   ├───sobivartist/
+│   ├───zminu/
 │   └───index.html
 ├───config.py
+├───cost.xlsx
+├───data1.xlsx
 ├───routes.py
-├───run.py
 └───main.py
 
 python_oblick/
