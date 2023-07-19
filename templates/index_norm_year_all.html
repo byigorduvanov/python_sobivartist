@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="revision" class="ui teal button">Перегляд даних</a>
+            <a href="/"><button class="ui teal  button">На головну</button></a>
+        </div>
+    </div>
+
+    <h2 class="ui center aligned header">ПЕРЕЛІК НОРМОГОДИН</h2>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Id Деталі</th>
+                <th>Кодування</th>
+                <th>Нормо витрати</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for norm_year in norm_year_list %}
+                <tr>
+                    <td> {{ norm_year.detail_id }} </td>
+                    <td> {{ norm_year.norm_year_coding }} </td>
+                    <td> {{ norm_year.norm_years }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

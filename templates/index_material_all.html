@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="ui container" >
+
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="revision" class="ui teal button">Перегляд даних</a>
+                <a href="/" class="ui teal  button">На головну</a>
+        </div>
+    </div>
+
+    <h2 class="ui center aligned header">ПЕРЕЛІК МАТЕРІАЛУ</h2>
+
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Марка матеріалу</th>
+                <th>Профіль</th>
+                <th>Вага, п/м</th>
+                <th>Ціна, т</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in material_list %}
+                <tr>
+                    <td> {{ material.id }} </td>
+                    <td> {{ material.marka }} </td>
+                    <td> {{ material.profile }} </td>
+                    <td> {{ material.weight }} </td>
+                    <td> {{ material.price }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}

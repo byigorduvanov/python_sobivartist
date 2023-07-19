@@ -2,66 +2,53 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
-    </form>
-</div>
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+             <a href="zminu"><button class="ui teal button" type="submit">Внесення зміних</button></a>
+            <a href="/"><button class="ui teal  button" type="submit">На головну</button></a>
+        </div>
+    </div>
 
-<head>
-    <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    </style>
-</head>
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ВИПРАВЛЕННЯ ДЕТАЛІ' }}</h1>
 
-<div style="margin-top: 50px;" class="ui container">
-  <h1 class="ui center aligned header green">{{ 'ВИПРАВЛЕННЯ ДЕТАЛІ' }}</h1>
+        <form class="ui large form" action="{{ url_for('updetdetail') }}" method="post">
+            <div class="ui segment">
+                <div class="field">
+                    <label>ДЕТАЛЬ</label>
+                    <input list="A" name="A">
+                    <datalist id="A">
+                        {% for detail in detail_list %}
+                        <option value="{{ detail.id }}">{{ detail.coding }}  {{ detail.name }}</option>
+                        {% endfor %}
+                    </datalist>
 
-  <form class="ui form" action="{{ url_for('updetdetail') }}" method="post">
-    <div class="field">
-    <label>ДЕТАЛЬ</label>
+                    <input type="text" name="second_coding" placeholder="Кодування"><br>
+                    <input type="text" name="second_name" placeholder="Найменування"><br>
 
-    <input list="A" name="A">
-    <datalist id="A">           
-      {% for detail in detail_list %}        
-      <option value="{{ detail.id }}">{{ detail.coding }} {{ detail.name }}</option>
-      {% endfor %}  
-    </datalist>
+                    <input type="radio" name="second_product_type" value="1" checked> Деталь<br>
+                    <input type="radio" name="second_product_type" value="3"> Збірна одиниця<br>
+                    <input type="radio" name="second_product_type" value="4"> Готова продукція (КРАН)<br>
 
-    <input type="text" name="second_coding" placeholder="Кодування"><br>
-    <input type="text" name="second_name" placeholder="Найменування"><br>
+                    <input type="text" name="second_lenght_workpiece" placeholder="Довжина заготовки"><br>
+                    <input type="text" name="second_width_workpiece" placeholder="Ширина заготовки"><br>
+                    <input type="text" name="second_trimming" placeholder="Торцовка"><br>
+                    <input type="text" name="second_lenght_detail" placeholder="Довжина деталі"><br>
+                    <input type="text" name="second_rate_costs" placeholder="Норма розтрат"><br>
 
-    <input type="radio" name="second_product_type" value="1" checked> Деталь<br>
-    <input type="radio" name="second_product_type" value="3"> Збірна одиниця<br>
-    <input type="radio" name="second_product_type" value="4"> Готова продукція (КРАН)<br>
+                    <input list="second_material_id" name="second_material_id"  placeholder="Матеріал">
+                    <datalist id="second_material_id">
+                        {% for material in material_list %}
+                        <option value="{{ material.id }}">{{ material.marka }}  {{ material.profile }}</option>
+                        {% endfor %}
+                    </datalist>
 
-    <input type="text" name="second_lenght_workpiece" placeholder="Довжина заготовки"><br>
-    <input type="text" name="second_width_workpiece" placeholder="Ширина заготовки"><br>            
-    <input type="text" name="second_trimming" placeholder="Торцовка"><br>
-    <input type="text" name="second_lenght_detail" placeholder="Довжина деталі"><br>
-    <input type="text" name="second_rate_costs" placeholder="Норма розтрат"><br>
-   
-
-  <input list="second_material_id" name="second_material_id"  placeholder="Матеріал">
-  <datalist id="second_material_id">           
-      {% for material in material_list %}        
-        <option value="{{ material.id }}">{{ material.marka }}  {{ material.profile }}</option>
-      {% endfor %}  
-  </datalist>
-
-    <button class="ui teal basic button" type="submit">ЗМІНИТИ ДАННІ</button>
+                    <button class="ui fluid large teal submit button" type="submit">ЗМІНИТИ ДАННІ</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
-
-</head>
-<body>
 
 {% endblock content %}

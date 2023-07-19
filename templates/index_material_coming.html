@@ -3,31 +3,36 @@
 {% block content %}
 
 <div class="ui container">
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-
-</div>
-
-<div class="ui container">
-  <h1 class="ui center aligned header green">{{ 'Прихід метеріалу' }}</h1>
-
-  <form class="ui form" action="{{ url_for('material_coming') }}" method="post">
-    <div class="field">
-    <label>ДЕТАЛЬ</label>
-   
-    <input list="material_id" name="material_id" placeholder="id_material">
-    <datalist id="material_id">           
-    {% for material in material_list %}     
-    <option value="{{ material.id }}">{{ material.marka }} {{ material.profile }}</option>
-    {% endfor %}   
-    </datalist>
-
-    <input type="text" name="price" placeholder="Ціна"><br>    
-    <input type="text" name="availability" placeholder="Кількість"><br>    
-    <input type="text" name="notes" placeholder="Примітки"><br>
-    <button class="ui teal basic button" type="submit">Додати прихід</button>
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="addall"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal  button" type="submit">На головну</button></a>
+        </div>
     </div>
-  </form>
-</div>
 
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'Прихід метеріалу' }}</h1>
+
+        <form class="ui large form" action="{{ url_for('material_coming') }}" method="post">
+            <div class="ui segment">
+                <div class="field">
+                    <label>ДЕТАЛЬ</label>
+                    <input list="material_id" name="material_id" placeholder="id_material">
+                    <datalist id="material_id">
+                        {% for material in material_list %}
+                        <option value="{{ material.id }}">{{ material.marka }}  {{ material.profile }}</option>
+                        {% endfor %}
+                    </datalist>
+
+                    <input type="text" name="price" placeholder="Ціна"><br>
+                    <input type="text" name="availability" placeholder="Кількість"><br>
+                    <input type="text" name="notes" placeholder="Примітки"><br>
+
+                    <button class="ui fluid large teal submit button" type="submit">Додати прихід</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock content %}

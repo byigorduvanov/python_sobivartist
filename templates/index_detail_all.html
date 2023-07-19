@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="ui container">
+
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+                <a href="revision" class="ui teal button">Перегляд даних</a>
+                <a href="/" class="ui teal button">На головну</a>
+        </div>
+    </div>
+
+    <h2 class="ui center aligned header">ДЕТАЛІ</h2>
+
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Кодування</th>
+                <th>Найменування</th>
+                <th>Матеріал</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail in detail_list %}
+                <tr>
+                    <td> {{ detail.id }} </td>
+                    <td> {{ detail.coding }} </td>
+                    <td> {{ detail.name }} </td>
+                    <td> {{ detail.material_id }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}

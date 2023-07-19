@@ -2,42 +2,46 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
-    </form>
-<div>
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="addall"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal button" type="submit">На головну</button></a>
+        </div>
+    </div>
 
-<div style="margin-top: 50px;" class="ui container">
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ ЗБІРНУ ОДИНИЦЮ' }}</h1>
 
-    <h1 class="ui center aligned header green">{{ 'ДОДАТИ ЗБІРНУ ОДИНИЦЮ' }}</h1>
+        <form class="ui large form" action="{{ url_for('collective') }}" method="post">
+            <div class="ui segment">
+                <div class="field">
+                    <label>Нова збірна одиниця</label>
+                    <input list="collective_id" name="collective_id" placeholder="Збірна одиниця">
+                    <datalist id="collective_id">
+                        {% for detail in detail_list %}
+                        <option value="{{ detail.id }}">{{ detail.coding }}  {{ detail.name }}</option>
+                        {% endfor %}
+                    </datalist>
 
-    <form class="ui form" action="{{ url_for('collective') }}" method="post">
-        <div class="field">
-        <label>Нова збірна одиниця</label>
-            <input list="collective_id" name="collective_id" placeholder="Збірна одиниця"> 
-            <datalist id="collective_id">           
-            {% for detail in detail_list %}        
-            <option value="{{ detail.id }}">{{ detail.coding }}  {{ detail.name }}  </option>
-            {% endfor %}   
-            </datalist>
+                    <input type="text" name="collective_coding" placeholder="Кодування"><br>
 
-        <input type="text" name="collective_coding" placeholder="Кодування"><br>   
+                    <label>ДЕТАЛІ збірної одиниці</label>
+                    <input type="text" name="sequence_number" placeholder="Порядковий номер">
 
-        <label>ДЕТАЛІ збірної одиниці</label>
-        <input type="text" name="sequence_number" placeholder="Порядковий номер"> 
-    
-        <input list="detail_id" name="detail_id" placeholder="Комплектуючі">
-        <datalist id="detail_id">
-            {% for detail in detail_list %}        
-            <option value="{{ detail.id }}">{{ detail.coding }} {{ detail.name }}  </option>             
-            {% endfor %}
-        </datalist>
+                    <input list="detail_id" name="detail_id" placeholder="Комплектуючі">
+                    <datalist id="detail_id">
+                        {% for detail in detail_list %}
+                        <option value="{{ detail.id }}">{{ detail.coding }} {{ detail.name }}</option>
+                        {% endfor %}
+                    </datalist>
 
-        <input type="text" name="number" placeholder="Кількість"><br>   
-        <button class="ui teal basic button" type="submit">Добавити</button>
-    </form>
+                    <input type="text" name="number" placeholder="Кількість"><br>
+                    <button class="ui fluid large teal submit button" type="submit">Добавити</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

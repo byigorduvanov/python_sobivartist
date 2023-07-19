@@ -112,34 +112,34 @@ def zminu(request: Request, db_session: Session = Depends(get_db)):
                                       {'request': request}
                                       )
 
-@app.get('/detailall')
+@app.get('/detail_all')
 def detailall(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
     details = db_session.query(Detail).all()
-    return templates.TemplateResponse('index_detailall.html',
+    return templates.TemplateResponse('index_detail_all.html',
                                       {'request': request,
                                        'detail_list': details,
                                        'material_list': materials,}
                                       )
 
 
-@app.get('/materialall')
+@app.get('/material_all')
 def materialall(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
     details = db_session.query(Detail).all()
-    return templates.TemplateResponse('index_materialall.html',
+    return templates.TemplateResponse('index_material_all.html',
                                       {'request': request,
                                        'detail_list': details,
                                        'material_list': materials,}
                                       )                            
 
 
-@app.get('/norm_yearall')
+@app.get('/norm_year_all')
 def norm_yearall(request: Request, db_session: Session = Depends(get_db)):
     materials = db_session.query(Material).all()
     details = db_session.query(Detail).all()
     norm_years = db_session.query(Norm_year).all()
-    return templates.TemplateResponse('index_norm_yearall.html',
+    return templates.TemplateResponse('index_norm_year_all.html',
                                       {'request': request,
                                        'detail_list': details,
                                        'material_list': materials,

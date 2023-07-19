@@ -2,64 +2,49 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
-    </form>
-</div>
-
-<form class="ui form" action="{{ url_for('dele_spec') }}" method="post">
-  <button class="ui teal basic button" type="submit">ОЧИСТИТИ</button>
-</form>
-
-<head>
-    <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    </style>
-</head>
-
-
-<div style="margin-top: 50px;" class="ui container">
-  <h1 class="ui center aligned header green">{{ 'ВИВЕСТИ СПЕЦИФІКАЦІЮ' }}</h1>
-  <form class="ui form" action="{{ url_for('specification') }}" method="post">
-    <div class="field">
-    <label>ЗБІРНА ОДИНИЦЯ</label>
-   
-    <select name="A">
-        {% for collective in collective_list %}        
-        <option value="{{ collective.collective_id }}">{{ collective.collective_coding }} </option>
-        {% endfor %}  
-    </select>
-
-    <h2>ДЕТАЛІ</h2>
-<table style="width:50%">
-  <tr>
-    <th>Кодування</th>
-    <th>Найменування</th>
-    <th>Кількість</th>
-  </tr>
-  <tr>
-    {% for specification in specification_list %}
-      <th> {{ specification.coding }} </th>
-      <th> {{ specification.name }} </th>
-      <th> {{ specification.number }} </th>
-  </tr>
-    {% endfor %}
-</table>
-    <button class="ui teal basic button" type="submit">ВИВЕСТИ СПЕЦИФІКАЦІЮ</button>
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="revision" class="ui teal button">Перегляд даних</a>
+            <a href="/"><button class="ui teal  button">На головну</button></a>
+        </div>
     </div>
-  </form>
-</div>
+    <form class="ui form" action="{{ url_for('dele_spec') }}" method="post">
+        <button class="ui teal  button" type="submit">ОЧИСТИТИ</button>
+    </form>
 
-</head>
-<body>
+    <h1 class="ui center aligned header ">ВИВЕСТИ СПЕЦИФІКАЦІЮ</h1>
+    <form class="ui form" action="{{ url_for('specification') }}" method="post">
+        <div class="field">
+            <label>ЗБІРНА ОДИНИЦЯ</label>
+            <select name="A">
+                {% for collective in collective_list %}
+                    <option value="{{ collective.collective_id }}">{{ collective.collective_coding }}</option>
+                {% endfor %}
+            </select>
+            <button class="ui teal  button" type="submit">ВИВЕСТИ СПЕЦИФІКАЦІЮ</button>
+        </div>
+    </form>
+
+    <h2 class="ui center aligned header">ДЕТАЛІ</h2>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Кодування</th>
+                <th>Найменування</th>
+                <th>Кількість</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for specification in specification_list %}
+                <tr>
+                    <td> {{ specification.coding }} </td>
+                    <td> {{ specification.name }} </td>
+                    <td> {{ specification.number }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock content %}

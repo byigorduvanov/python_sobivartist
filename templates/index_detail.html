@@ -3,14 +3,16 @@
 {% block content %}
 
 <div  class="ui container">
+
     <div class="ui padded segment">
         <div class="ui center aligned container">
-            <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
+            <a href="addall"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal  button" type="submit">На головну</button></a>
         </div>
     </div>
 
     <div class="ui segment">
-        <h1 class="ui center aligned header green">{{ 'ДОДАТИ ДЕТАЛЬ' }}</h1>
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ ДЕТАЛЬ' }}</h1>
 
         <form class="ui large form" action="{{ url_for('adddetail') }}" method="post">
             <div class="ui segment">

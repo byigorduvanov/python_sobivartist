@@ -2,116 +2,87 @@
 
 {% block content %}
 
-<div style="margin-top: 50px;" class="ui container">
-    <body>  
-        <a href="/"><button class="ui teal basic button" type="submit">На головну</button></a>
-     </body>
+<div class="ui container">
+
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="revision" class="ui teal button">Перегляд даних</a>
+            <a href="/" class="ui teal  button">На головну</a>
+        </div>
+    </div>
+
+    <form class="ui form" action="{{ url_for('dele_cost') }}" method="post">
+        <button class="ui teal  button" type="submit">ОЧИСТИТИ</button>
     </form>
+
+    <div class="ui container">
+        <h1 class="ui center aligned header ">ВИВЕДЕННЯ ДАНИХ В EXCEL</h1>
+
+        <form class="ui form" action="{{ url_for('excel') }}" method="post">
+            <select class="ui dropdown" name="A">
+                {% for collective in collective_list %}
+                    <option value="{{ collective.collective_id }}">{{ collective.collective_coding }}</option>
+                {% endfor %}
+            </select>
+            <button class="ui teal  button" type="submit">ЗБЕРЕГТИ В ЕКСЕЛІ</button>
+        </form>
+
+        <h1 class="ui center aligned header ">ВИВЕСТИ СОБІВАРТІСТЬ (ОНЛАЙН)</h1>
+
+        <form class="ui form" action="{{ url_for('cost') }}" method="post">
+            <div class="field">
+                <label>ЗБІРНА ОДИНИЦЯ</label>
+                <select class="ui dropdown" name="A">
+                    {% for collective in collective_list %}
+                        <option value="{{ collective.collective_id }}">{{ collective.collective_coding }}</option>
+                    {% endfor %}
+                </select>
+                <button class="ui teal  button" type="submit">ВИВЕСТИ СОБІВАРТІСТЬ ЗБІРНОЙ ОДИНИЦІ</button>
+
+                <h2 class="ui center aligned header">ДЕТАЛІ</h2>
+
+                <table class="ui celled table">
+                    <thead>
+                        <tr>
+                            <th>Кодування</th>
+                            <th>Найменування</th>
+                            <th>Кількість</th>
+                            <th>Марка матеріалу</th>
+                            <th>Профіль</th>
+                            <th>Норми витрат (кг) на 1шт.</th>
+                            <th>Норми витрат (кг)</th>
+                            <th>Норми години на 1 дет.</th>
+                            <th>Собівартість матеріалу</th>
+                            <th>Нормо години</th>
+                            <th>Норма, сек</th>
+                            <th>Ціна за кг.</th>
+                            <th>Примітки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cost in cost_list %}
+                            <tr>
+                                <td> {{ cost.coding }} </td>
+                                <td> {{ cost.name }} </td>
+                                <td> {{ cost.number }} </td>
+                                <td> {{ cost.marka }} </td>
+                                <td> {{ cost.profile }} </td>
+                                <td> {{ cost.rate_costs }} </td>
+                                <td> {{ cost.rates_costs }} </td>
+                                <td> {{ cost.norm_years }} </td>
+                                <td> {{ cost.cost_materials }} </td>
+                                <td> {{ cost.norms_years }} </td>
+                                <td> {{ cost.norms_sec }} </td>
+                                <td> {{ cost.price_kg }} </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
 </div>
-
-<form class="ui form" action="{{ url_for('dele_cost') }}" method="post">
-  <button class="ui teal basic button" type="submit">ОЧИСТИТИ</button>
-</form>
-
-
-<head>
-    <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    </style>
-</head>
-
-
-<div style="margin-top: 20px;" class="ui container">
-  <h1 class="ui center aligned header green">{{ 'ВИВЕДЕННЯ ДАНИХ В EXCEL' }}</h1>
-<form class="ui form" action="{{ url_for('excel') }}" method="post">
-  <select name="A">
-    {% for collective in collective_list %}        
-    <option value="{{ collective.collective_id }}">{{ collective.collective_coding }} </option>
-    {% endfor %}  
-</select>
-<button class="ui teal basic button" type="submit">ЗБЕРЕГТИ В ЕКСЕЛІ</button>
-</class>
-</form>
-
-
-<div style="margin-top: 50px;" class="ui container">
-  <h1 class="ui center aligned header green">{{ 'ВИВЕСТИ СОБІВАРТІСТЬ (ОНЛАЙН)' }}</h1>
-  
-  <form class="ui form" action="{{ url_for('cost') }}" method="post">
-    <div class="field">
-    <label>ЗБІРНА ОДИНИЦЯ</label>
-   
-    <select name="A">
-        {% for collective in collective_list %}        
-        <option value="{{ collective.collective_id }}">{{ collective.collective_coding }} </option>
-        {% endfor %}  
-    </select>
-    <button class="ui teal basic button" type="submit">ВИВЕСТИ СОБІВАРТІСТЬ ЗБІРНОЇ ОДИНИЦІ</button>
-    <h2>ДЕТАЛІ</h2>
-<table style="width:50%">
-  <tr>
-    <th>Кодування</th>
-    <th>Найменування</th>
-    <th>Кількість</th>
-    <th>Марка матеріалу</th>
-    <th>Профіль</th>
-    <th>Норми витрат (кг) на 1шт.</th>
-    <th>Норми витрат (кг)</th>
-    <th>Норми години на 1 дет.</th>     
-    <th>Собівартість матеріалу</th>
-    <th>Нормо години</th>
-    <th>Норма, сек</th>
-    <th>Ціна за кг.</th>           
-    <th>Примітки</th>          
-  </tr>
-  <tr>
-    {% for cost in cost_list %}
-      <th> {{ cost.coding }} </th>
-      <th> {{ cost.name }} </th>
-      <th> {{ cost.number }} </th>
-      <th> {{ cost.marka }} </th>
-      <th> {{ cost.profile }} </th>
-      <th> {{ cost.rate_costs}} </th>
-      <th> {{ cost.rates_costs}} </th>
-      <th> {{ cost.norm_years}} </th>
-      <th> {{ cost.cost_materials }} </th>
-      <th> {{ cost.norms_years }} </th>             
-      <th> {{ cost.norms_sec }} </th>   
-      <th> {{ cost.price_kg }} </th>      
-      <th>             </th>           
-  </tr>
-    {% endfor %}
-</table>
-  </class>
-  </form>
-
-
-
-
-
-
-
-  </form>
-</div>
-
-</head>
-<body>
 
 {% endblock content %}
-
-
-
-
-
-
-
-    
-
-
