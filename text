@@ -9,6 +9,11 @@ python_sobivartist
 │   └───base.py
 ├───static/
 │   └───css/
+├───routers/
+│   ├───zminu/
+│   │   ├── zminu_router.py
+│   ├───add_all/
+│   │   ├── workshop_routers.py
 ├───tables/
 │   └───__pycache__
 │   └───tables.py
@@ -21,3 +26,64 @@ python_sobivartist
 ├───routes.py
 ├───run.py
 └───main.py
+
+python_oblick/
+│
+├── app/
+│   ├── main.py
+│   ├── workshop/
+│   │   ├── workshop_routers.py
+│   │   ├── workshop_templates/
+│   │   │   ├── workshop_denzvit.html
+│   ├── storage/
+│   │   ├── storage_routers.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── odvumir.py
+│   │   ├── oper.py
+│   │   ├── robitnuk.py
+│   │   ├── perelik.py
+│   │   ├── material.py
+│   │   ├── price.py
+│   │   ├── nakladna.py
+│   │   ├── operation.py
+│   │   ├── resur.py
+│   │   ├── marshryt.py
+│   │   ├── denzvit.py
+│   │   └── users.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── odvumir.py
+│   │   ├── oper.py
+│   │   ├── robitnuk.py
+│   │   ├── perelik.py
+│   │   ├── material.py
+│   │   ├── price.py
+│   │   ├── nakladna.py
+│   │   ├── operation.py
+│   │   ├── resur.py
+│   │   ├── marshryt.py
+│   │   ├── denzvit.py
+│   │   ├── users.py
+│   │   ├── authorization.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── index.html
+│   │   ├── odvumir_page.html
+│   │   ├── oper_page.html
+│   │   ├── robitnuk_page.html
+│   │   ├── material_page.html
+│   │   ├── price_page.html
+│   │   ├── users_page.html
+│   │   ├── auth_page.html
+│   │   ├── storage_page.html
+│   │   ├── workshop_page.html
+│   ├── static/
+│   │   ├── style.css
+│   ├── config.py
+│   ├── DB.db
+│   ├── templates.py
+│   └── database.py
+│
+└── requirements.txt
