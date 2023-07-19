@@ -6,8 +6,18 @@ from database.base import get_db
 from main import app, templates
 from tables.tables import Collective, Serie, Vavle, Material, Detail, Norm_year, Detail_change, Material_coming
 from tables.tables_zero import Specification, Cost
-from openpyxl import load_workbook
 
+
+@app.get('/add_all')
+def addall(request: Request, db_session: Session = Depends(get_db)):
+    materials = db_session.query(Material).all()
+    details = db_session.query(Detail).all()
+    collectives = db_session.query(Collective).all()
+    return templates.TemplateResponse('/add_all/index_add_all.html',
+                                      {'request': request,
+                                       'detail_list': details,
+                                       'material_list': materials,}
+                                      )
 #===================матеріали================================#
 @app.get('/material')
 def material(request: Request, db_session: Session = Depends(get_db)):

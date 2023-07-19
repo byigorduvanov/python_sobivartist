@@ -7,6 +7,13 @@ from main import app, templates
 from tables.tables import Collective, Serie, Vavle, Material, Detail, Norm_year, Detail_change, Material_coming
 from openpyxl import load_workbook
 
+
+@app.get('/zminu')
+def zminu(request: Request, db_session: Session = Depends(get_db)):
+    return templates.TemplateResponse('/zminu/index_zminu.html',
+                                      {'request': request}
+                                      )
+#=====================ЗМІНА ДЕТАЛІ==============================#
 @app.get('/updetdetail')
 def updetdetail(request: Request, db_session: Session = Depends(get_db)):
     details = db_session.query(Detail).all()
