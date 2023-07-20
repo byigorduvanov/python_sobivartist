@@ -107,10 +107,13 @@ class Material_coming(Base):
     Material = relationship("Material")
 Base.metadata.create_all(bind=engine)
 
+#===============ПО ОПЕРАЦІЙНО======================#
 class Detail_m_k(Base):
     __tablename__ = 'detail_m_k'
     id = Column(Integer, primary_key=True, index=True)
     detail_id = Column(Integer, ForeignKey("details.id"))
+    detail_operations_id = Column(Integer, ForeignKey("detail_operations.id"))
+    seqence = Column(Integer)
     name = Column(String)
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
@@ -120,8 +123,21 @@ Base.metadata.create_all(bind=engine)
 class Operations(Base):
     __tablename__ = 'operations'
     id = Column(Integer, primary_key=True, index=True)
-    detail_id = Column(Integer, ForeignKey("details.id"))
+    coding = Column(String)
     name = Column(String)
+    type = Column(String)
+    notes = Column(String)
+    date_created = Column(DateTime, default=datetime.today)
+    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+Base.metadata.create_all(bind=engine)
+
+class Detail_Operations(Base):
+    __tablename__ = 'detail_operations'
+    id = Column(Integer, primary_key=True, index=True)                      #
+    detail_id = Column(Integer, ForeignKey("details.id"))
+    operations_id = Column(Integer, ForeignKey("operations.id"))
+    name = Column(String)
+    type = Column(String)
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
