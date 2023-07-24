@@ -13,12 +13,27 @@
             <div class="ui segment">
                 <div class="field">
                     <label>Нова  Операція для ДЕТАЛЕЙ</label>
-                    <div class="ui input">
-                        <input type="text" name="detail_id" placeholder="ID Деталі">
+                   <div class="field">
+                    <label>ID Деталі</label>
+                        <select name="detail_id">
+                            {% for detail in details %}
+                            <option value="{{ detail.id }}">
+                                {{ detail.coding }} - {{ detail.name }}
+                                {% if detail.Material %}
+                                ({{ detail.Material.profile }}, {{ detail.Material.marka }})
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="ui input">
-                        <input type="text" name="operations_id" placeholder="ID Операції">
-                    </div>
+                <div class="field">
+                    <label>ID Операції</label>
+                    <select name="operations_id">
+                        {% for operation in operations %}
+                        <option value="{{ operation.id }}">{{ operation.coding }} - {{ operation.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                     <div class="ui input">
                         <input type="text" name="name" placeholder="НАЗВА">
                     </div>
