@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="ui container">
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">Редагувати детальну операцію</h1>
+
+        <form class="ui large form" action="{{ url_for('update_detail_operation', detail_operation_id=detail_operation.id) }}" method="post">
+            <div class="ui segment">
+                <div class="field">
+                    <label>ID Деталі</label>
+                    <div class="ui input">
+                        <input type="text" name="detail_id" value="{{ detail_operation.detail_id }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>ID Операції</label>
+                    <div class="ui input">
+                        <input type="text" name="operations_id" value="{{ detail_operation.operations_id }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Назва</label>
+                    <div class="ui input">
+                        <input type="text" name="name" value="{{ detail_operation.name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Тип</label>
+                    <div class="ui input">
+                        <input type="text" name="type" value="{{ detail_operation.type }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Нотатки</label>
+                    <div class="ui input">
+                        <input type="text" name="notes" value="{{ detail_operation.notes }}">
+                    </div>
+                </div>
+                <button class="ui fluid large teal submit button" type="submit">Оновлення</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

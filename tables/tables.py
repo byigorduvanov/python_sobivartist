@@ -99,7 +99,7 @@ class Material_coming(Base):
     __tablename__ = 'material_comings'
     id = Column(Integer, primary_key=True, index=True)                      #
     material_id = Column (Integer, ForeignKey("materials.id"))
-    price= Column(Float)  
+    price = Column(Float)
     availability = Column (Float)                                           # Кількість приходу
     notes = Column(String)                                                  # Номер документу (Накладна, партія)
     date_created = Column(DateTime, default=datetime.today)

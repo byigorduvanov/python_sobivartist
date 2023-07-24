@@ -45,8 +45,8 @@ def detail(request: Request, db_session: Session = Depends(get_db)):
                                        'detail_list': details,
                                        'material_list': materials}
                                       )
-@app.post('/adddetail')
-def adddetail(coding: str = Form(...), name: str = Form(...), product_type: str = Form(...),
+@app.post('/add_detail')
+def add_detail(coding: str = Form(...), name: str = Form(...), product_type: str = Form(...),
               lenght_workpiece: str = Form(...), width_workpiece: str = Form(...), trimming: str = Form(...),
               lenght_detail: str = Form(...), rate_costs: str = Form(...), material_id: int = Form(...),
               db_session: Session = Depends(get_db)):

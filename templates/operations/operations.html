@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="add_all"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal button" type="submit">На головну</button></a>
+        </div>
+    </div>
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ ОПЕРАЦІЇ' }}</h1>
+
+        <form id="add-operation-form" class="ui large form">
+            <div class="ui segment">
+                <div class="field">
+                    <label>Нова ОПЕРАЦІЯ</label>
+                    <div class="ui input">
+                        <input type="text" name="coding" placeholder="КОД">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="name" placeholder="НАЗВА">
+                    </div>
+                </div>
+                  <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="type" placeholder="ТИП">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="notes" placeholder="НОТАТКИ">
+                    </div>
+                </div>
+                 <button class="ui fluid large teal submit button" type="submit">Добавити</button>
+                </div>
+            </form>
+    </div>
+    <div class="ui segment">
+       <form class="ui large form" action="{{ url_for('search_operations') }}" method="get">
+    <div class="field">
+        <label>Пошук Операцій</label>
+        <div class="ui input">
+            <input type="text" name="search_term" placeholder="Пошук по коду або назві" value="{{ search_term }}">
+        </div>
+    </div>
+    <div class="field">
+        <label>Сортування по року</label>
+        <div class="ui input">
+            <select name="sort_order">
+                <option value="asc" {% if sort_order == 'asc' %} selected {% endif %}>За зростанням</option>
+                <option value="desc" {% if sort_order == 'desc' %} selected {% endif %}>За спаданням</option>
+            </select>
+        </div>
+    </div>
+    <button class="ui fluid large teal submit button" type="submit">Пошук</button>
+</form>
+
+    </div>
+
+        <div class="ui segment">
+                <h1 class="ui center aligned header teal">Операції</h1>
+
+                <table class="ui celled table">
+                    <thead>
+                        <tr>
+                            <th>Кодування</th>
+                            <th>Назва</th>
+                            <th>Тип</th>
+                            <th>Нотатки</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for operation in operations_list %}
+                        <tr>
+                            <td>{{ operation.coding }}</td>
+                            <td>{{ operation.name }}</td>
+                            <td>{{ operation.type }}</td>
+                            <td>{{ operation.notes }}</td>
+                            <td>{{ operation.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ operation.date_updated.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                           <td>
+                            <a href="{{ url_for('edit_operation', operation_id=operation.id) }}"><button class="ui blue button">Редагувати</button></a>
+                            <button class="ui red button" type="button" onclick="deleteOperation('{{operation.id}}')">Видалити</button>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+</div>
+
+<script>
+document.getElementById('add-operation-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const response = await fetch('/add_operations', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (!response.ok) {
+        console.error('Error:', response.statusText);
+        return;
+    }
+    window.location.reload();
+});
+
+    async function deleteOperation(operationId) {
+        if (!confirm('Ви дійсно хочете видалити цю операцію?')) {
+            return;
+        }
+
+        const response = await fetch(`/delete_operation/${operationId}`, {
+             method: 'DELETE',
+        });
+
+      if (response.ok) {
+        const data = await response.json();
+        if(data.status === "success"){
+            window.location.reload();
+        }
+        } else {
+            console.error('Error:', response.statusText);
+        }
+    }
+</script>
+{% endblock  %}

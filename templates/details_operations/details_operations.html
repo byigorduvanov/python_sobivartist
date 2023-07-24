@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="add_all"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal button" type="submit">На головну</button></a>
+        </div>
+    </div>
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ ОПЕРАЦІЇ ДЛЯ ДЕТАЛЕЙ' }}</h1>
+        <form id="add-detail-operation-form" class="ui large form">
+            <div class="ui segment">
+                <div class="field">
+                    <label>Нова  Операція для ДЕТАЛЕЙ</label>
+                    <div class="ui input">
+                        <input type="text" name="detail_id" placeholder="ID Деталі">
+                    </div>
+                    <div class="ui input">
+                        <input type="text" name="operations_id" placeholder="ID Операції">
+                    </div>
+                    <div class="ui input">
+                        <input type="text" name="name" placeholder="НАЗВА">
+                    </div>
+                    <div class="ui input">
+                        <input type="text" name="type" placeholder="ТИП">
+                    </div>
+                    <div class="ui input">
+                        <input type="text" name="notes" placeholder="НОТАТКИ">
+                    </div>
+                </div>
+                 <button class="ui fluid large teal submit button" type="submit">Добавити</button>
+                </div>
+            </form>
+    </div>
+
+</div>
+    <script>
+document.getElementById('add-detail-operation-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const response = await fetch('/add_details_operations', {
+        method: 'POST',
+        body: formData,
+    });
+    if (!response.ok) {
+        console.error('Error:', response.statusText);
+        return;
+    }
+    window.location.reload();
+});
+</script>
+{% endblock %}
