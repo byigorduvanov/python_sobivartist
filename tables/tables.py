@@ -133,7 +133,7 @@ Base.metadata.create_all(bind=engine)
 
 class Detail_Operations(Base):
     __tablename__ = 'detail_operations'
-    id = Column(Integer, primary_key=True, index=True)                      #
+    id = Column(Integer, primary_key=True, index=True)
     detail_id = Column(Integer, ForeignKey("details.id"))
     operations_id = Column(Integer, ForeignKey("operations.id"))
     name = Column(String)
@@ -141,6 +141,9 @@ class Detail_Operations(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+
+    detail = relationship("Detail", backref="detail_operations")
+    operations = relationship("Operations", backref="detail_operations")
 Base.metadata.create_all(bind=engine)
 class Normu_kilkist(Base):
     __tablename__ = 'normu_kilkist'

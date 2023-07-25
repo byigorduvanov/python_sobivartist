@@ -47,7 +47,65 @@
                  <button class="ui fluid large teal submit button" type="submit">Добавити</button>
                 </div>
             </form>
-    </div>
+      </div>
+            <div class="ui segment">
+                <form class="ui large form" action="{{ url_for('search_detail_operations') }}" method="get">
+                    <div class="field">
+                        <label>Пошук Деталей</label>
+                        <div class="ui input">
+                            <input type="text" name="search_term" placeholder="Пошук по коду деталі" value="{{ search_term }}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Сортування по року</label>
+                        <div class="ui input">
+                            <select name="sort_order">
+                                <option value="asc" {% if sort_order == 'asc' %} selected {% endif %}>За зростанням</option>
+                                <option value="desc" {% if sort_order == 'desc' %} selected {% endif %}>За спаданням</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="ui fluid large teal submit button" type="submit">Пошук</button>
+                </form>
+            </div>
+
+        <div class="ui segment">
+                <h1 class="ui center aligned header teal">Операції</h1>
+
+                <table class="ui celled table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID_Detail</th>
+                            <th>ID_Operations</th>
+                            <th>назва</th>
+                            <th>Тип</th>
+                            <th>Нотатки</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail_operations in detail_operations_list %}
+                        <tr>
+                            <td>{{ detail_operations.id }}</td>
+                            <td>{{ detail_operations.detail.coding }} - {{ detail_operations.detail.name }}</td>
+                            <td>{{ detail_operations.operations.coding }} - {{ detail_operations.operations.name }}</td>
+                            <td>{{ detail_operations.name }}</td>
+                            <td>{{ detail_operations.type }}</td>
+                            <td>{{ detail_operations.notes }}</td>
+                            <td>{{ detail_operations.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ detail_operations.date_updated.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                           <td>
+                            <a href="{{ url_for('edit_detail_operations', detail_operations_id=detail_operations.id) }}"><button class="ui blue button">Редагувати</button></a>
+                            <button class="ui red button" type="button" onclick="deleteDetail_Operations('{{detail_operations.id}}')">Видалити</button>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
 
 </div>
     <script>
@@ -65,5 +123,23 @@ document.getElementById('add-detail-operation-form').addEventListener('submit', 
     }
     window.location.reload();
 });
+    async function deleteDetail_Operations(detail_operationsId) {
+        if (!confirm('Ви дійсно хочете видалити цю операцію?')) {
+            return;
+        }
+
+        const response = await fetch(`/delete_detail_operations/${detail_operationsId}`, {
+             method: 'DELETE',
+        });
+
+      if (response.ok) {
+        const data = await response.json();
+        if(data.status === "success"){
+            window.location.reload();
+        }
+        } else {
+            console.error('Error:', response.statusText);
+        }
+    }
 </script>
 {% endblock %}

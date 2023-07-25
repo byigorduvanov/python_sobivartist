@@ -4,36 +4,36 @@
     <div class="ui segment">
         <h1 class="ui center aligned header teal">Редагувати детальну операцію</h1>
 
-        <form class="ui large form" action="{{ url_for('update_detail_operation', detail_operation_id=detail_operation.id) }}" method="post">
+        <form class="ui large form" action="{{ url_for('update_detail_operations', detail_operations_id=detail_operations.id) }}" method="post">
             <div class="ui segment">
                 <div class="field">
                     <label>ID Деталі</label>
                     <div class="ui input">
-                        <input type="text" name="detail_id" value="{{ detail_operation.detail_id }}">
+                        <input type="text" name="detail_id" value="{{ detail_operations.detail_id }}">
                     </div>
                 </div>
                 <div class="field">
                     <label>ID Операції</label>
                     <div class="ui input">
-                        <input type="text" name="operations_id" value="{{ detail_operation.operations_id }}">
+                        <input type="text" name="operations_id" value="{{ detail_operations.operations_id }}">
                     </div>
                 </div>
                 <div class="field">
                     <label>Назва</label>
                     <div class="ui input">
-                        <input type="text" name="name" value="{{ detail_operation.name }}">
+                        <input type="text" name="name" value="{{ detail_operations.name }}">
                     </div>
                 </div>
                 <div class="field">
                     <label>Тип</label>
                     <div class="ui input">
-                        <input type="text" name="type" value="{{ detail_operation.type }}">
+                        <input type="text" name="type" value="{{ detail_operations.type }}">
                     </div>
                 </div>
                 <div class="field">
                     <label>Нотатки</label>
                     <div class="ui input">
-                        <input type="text" name="notes" value="{{ detail_operation.notes }}">
+                        <input type="text" name="notes" value="{{ detail_operations.notes }}">
                     </div>
                 </div>
                 <button class="ui fluid large teal submit button" type="submit">Оновлення</button>
