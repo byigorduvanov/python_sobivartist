@@ -6,18 +6,30 @@
 
         <form class="ui large form" action="{{ url_for('update_detail_operations', detail_operations_id=detail_operations.id) }}" method="post">
             <div class="ui segment">
-                <div class="field">
+               <div class="field">
+                    <label>Нова  Операція для ДЕТАЛЕЙ</label>
+                   <div class="field">
                     <label>ID Деталі</label>
-                    <div class="ui input">
-                        <input type="text" name="detail_id" value="{{ detail_operations.detail_id }}">
+                        <select name="detail_id">
+                            {% for detail in details %}
+                            <option value="{{ detail.id }}">
+                                {{ detail.coding }} - {{ detail.name }}
+                                {% if detail.Material %}
+                                ({{ detail.Material.profile }}, {{ detail.Material.marka }})
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </div>
                 <div class="field">
                     <label>ID Операції</label>
-                    <div class="ui input">
-                        <input type="text" name="operations_id" value="{{ detail_operations.operations_id }}">
-                    </div>
+                    <select name="operations_id">
+                        {% for operation in operations %}
+                        <option value="{{ operation.id }}">{{ operation.coding }} - {{ operation.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+               </div>
                 <div class="field">
                     <label>Назва</label>
                     <div class="ui input">

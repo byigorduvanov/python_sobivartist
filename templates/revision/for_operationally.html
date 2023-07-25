@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="revision" class="ui teal button">Перегляд даних</a>
+            <a href="/"><button class="ui teal  button">На головну</button></a>
+        </div>
+    </div>
+
+    <h1 class="ui center aligned header ">ВИВЕСТИ ПО ОПЕРАЦІЙНО</h1>
+    <form class="ui form" action="{{ url_for('for_operationally') }}" method="post">
+        <div class="field">
+            <label>ДЕТАЛЬ</label>
+            <select name="A">
+                {% for details in detail_list %}
+                    <option value="{{ details.id }}">{{ details.coding }} - {{ details.name }}</option>
+                {% endfor %}
+            </select>
+            <button class="ui teal  button" type="submit">ВИВЕСТИ ПО ОПЕРАЦІЙНО</button>
+        </div>
+    </form>
+
+    <h2 class="ui center aligned header">ДЕТАЛІ</h2>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Detail ID</th>
+                <th>Detail Operations ID</th>
+                <th>Sequence</th>
+                <th>Name</th>
+                <th>Notes</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail_m_k in detail_m_k_list %}
+                <tr>
+                    <td>{{ detail_m_k.id }}</td>
+                    <td>{{ detail_m_k.detail_operations.detail.coding }}</td>
+                    <td>{{ detail_m_k.detail_operations.operations.name }}</td>
+                    <td>{{ detail_m_k.seqence }}</td>
+                    <td>{{ detail_m_k.name }}</td>
+                    <td>{{ detail_m_k.notes }}</td>
+                    <td>{{ detail_m_k.date_created }}</td>
+                    <td>{{ detail_m_k.date_updated }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

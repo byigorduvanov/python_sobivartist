@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="ui container">
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">Редагувати детальну операцію</h1>
+
+        <form class="ui large form" action="{{ url_for('update_detail_m_k', detail_m_k_id=detail_m_k.id) }}" method="post">
+            <div class="ui segment">
+                 <div class="field">
+                    <label>Нови МАРШРУТ ДЛЯ ДЕТАЛЕЙ</label>
+                    <div class="field">
+                        <label>ID Деталі</label>
+                        <select name="detail_id">
+                            {% for detail in details %}
+                            <option value="{{ detail.id }}">
+                                {{ detail.coding }} - {{ detail.name }}
+                                {% if detail.Material %}
+                                ({{ detail.Material.profile }}, {{ detail.Material.marka }})
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                <div class="field">
+                    <label>ID Операції</label>
+                    <select name="detail_operations_id">
+                        {% for detail_operation in detail_operations %}
+                        <option value="{{ detail_operation.id }}">{{ detail_operation.operations.coding }} - {{ detail_operation.operations.name }} - {{ detail_operation.detail.coding }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                 </div>
+                <div class="field">
+                    <label>Секвенція</label>
+                    <div class="ui input">
+                        <input type="text" name="seqence" value="{{ detail_m_k.seqence }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Назва</label>
+                    <div class="ui input">
+                        <input type="text" name="name" value="{{ detail_m_k.name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Нотатки</label>
+                    <div class="ui input">
+                        <input type="text" name="notes" value="{{ detail_m_k.notes }}">
+                    </div>
+                </div>
+                <button class="ui fluid large teal submit button" type="submit">Оновлення</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+</script>
+{% endblock content %}

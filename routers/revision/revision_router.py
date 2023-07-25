@@ -66,7 +66,7 @@ def specification(A: int = Form(...), db_session: Session = Depends(get_db)):
         new_Specification = Specification(coding=row.Detail.coding, name=row.Detail.name, number=row.Collective.number)
         db_session.add(new_Specification)
         db_session.commit()
-        print(new_Specification.coding, new_Specification.name, new_Specification.number)
+
 
     url = app.url_path_for('specification')
     return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)

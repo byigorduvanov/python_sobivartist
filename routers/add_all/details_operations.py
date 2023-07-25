@@ -29,9 +29,13 @@ async def add_details_operations(detail_id: int = Form(''), operations_id: int =
 
 @app.get('/edit_detail_operations/{detail_operations_id}')
 def edit_detail_operations(request: Request, detail_operations_id: int, db_session: Session = Depends(get_db)):
-    detail_operations = db_session.query(Detail_Operations).filter_by(id=detail_operations_id).first()
+    detail_operation = db_session.query(Detail_Operations).filter_by(id=detail_operations_id).first()
+    details = db_session.query(Detail).options(joinedload(Detail.Material)).all()  # Fetch all Details with their Materials
+    operations = db_session.query(Operations).all()  # Fetch all Operations
     return templates.TemplateResponse("/details_operations/edit_details_operations.html",
-    {"request": request, "detail_operations": detail_operations})
+                                      {"request": request, "detail_operations": detail_operation, "details": details,
+                                       "operations": operations})
+
 @app.post('/edit_detail_operations/{detail_operations_id}')
 def update_detail_operations(request: Request, detail_operations_id: int, detail_id: int = Form(''), operations_id: int = Form(''), name: str = Form(''), type: str = Form(''), notes: str = Form(''), db_session: Session = Depends(get_db)):
     detail_operation = db_session.query(Detail_Operations).filter_by(id=detail_operations_id).first()

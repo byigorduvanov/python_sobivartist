@@ -16,5 +16,7 @@ from routers.zminu import zminu_router
 from routers.add_all import add_all_router
 from routers.add_all import operations_router
 from routers.add_all import details_operations
+from routers.add_all import detail_m_k_router
 from routers.revision import revision_router
+from routers.revision import for_operationally_router
 from routers.sobivartist import sobivartist_router

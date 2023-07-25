@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="ui container">
+    <div class="ui padded segment">
+        <div class="ui center aligned container">
+            <a href="add_all"><button class="ui teal button" type="submit">Додавання даних</button></a>
+            <a href="/"><button class="ui teal button" type="submit">На головну</button></a>
+        </div>
+    </div>
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">{{ 'ДОДАТИ МАРШРУТ ДЕТАЛЕЙ' }}</h1>
+        <form id="add-detail_m_k-form" class="ui large form">
+            <div class="ui segment">
+                <div class="field">
+                    <label>Нови МАРШРУТ ДЛЯ ДЕТАЛЕЙ</label>
+                    <div class="field">
+                        <label>ID Деталі</label>
+                        <select name="detail_id">
+                            {% for detail in details %}
+                            <option value="{{ detail.id }}">
+                                {{ detail.coding }} - {{ detail.name }}
+                                {% if detail.Material %}
+                                ({{ detail.Material.profile }}, {{ detail.Material.marka }})
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                <div class="field">
+                    <label>ID Операції</label>
+                    <select name="detail_operations_id">
+                        {% for detail_operation in detail_operations %}
+                        <option value="{{ detail_operation.id }}">{{ detail_operation.operations.coding }} - {{ detail_operation.operations.name }} - {{ detail_operation.detail.coding }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Послідовність</label>
+                    <div class="ui input">
+                        <input type="number" name="seqence" placeholder="Послідовність">
+                    </div>
+                </div>
+                <div class="ui input">
+                    <input type="text" name="name" placeholder="НАЗВА">
+                </div>
+                <div class="ui input">
+                    <input type="text" name="notes" placeholder="НОТАТКИ">
+                </div>
+                </div>
+                <button class="ui fluid large teal submit button" type="submit">Добавити</button>
+            </div>
+        </form>
+    </div>
+    <div class="ui segment">
+        <h1 class="ui center aligned header teal">Модулі</h1>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID_Detail</th>
+                    <th>ID_Detail_Operations</th>
+                    <th>Послідовність</th>
+                    <th>назва</th>
+                    <th>Нотатки</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail_m_k in detail_m_k_list %}
+                <tr>
+                    <td>{{ detail_m_k.id }}</td>
+                    <td>{{ detail_m_k.detail.coding }} - {{ detail_m_k.detail.name }}</td>
+                    <td>{{ detail_m_k.detail_operations.operations.coding }} - {{ detail_m_k.detail_operations.operations.name }} - {{ detail_m_k.detail_operations.detail.coding }}</td>
+                    <td>{{ detail_m_k.seqence }}</td>
+                    <td>{{ detail_m_k.name }}</td>
+                    <td>{{ detail_m_k.notes }}</td>
+                    <td>
+                    <a href="{{ url_for('edit_detail_m_k', detail_m_k_id=detail_m_k.id) }}"><button class="ui blue button">Редагувати</button></a>
+                    <button class="ui red button" type="button" onclick="deleteDetail_M_K('{{detail_m_k.id}}')">Видалити</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+document.getElementById('add-detail_m_k-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const response = await fetch('/add_detail_m_k', {
+        method: 'POST',
+        body: formData,
+    });
+    if (!response.ok) {
+        console.error('Error:', response.statusText);
+        return;
+    }
+    window.location.reload();
+});
+    async function deleteDetail_M_K(detail_m_kId) {
+        if (!confirm('Ви дійсно хочете видалити цю операцію?')) {
+            return;
+        }
+
+        const response = await fetch(`/delete_detail_m_k/${detail_m_kId}`, {
+             method: 'DELETE',
+        });
+
+      if (response.ok) {
+        const data = await response.json();
+        if(data.status === "success"){
+            window.location.reload();
+        }
+        } else {
+            console.error('Error:', response.statusText);
+        }
+    }
+</script>
+{% endblock %}
