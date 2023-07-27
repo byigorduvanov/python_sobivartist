@@ -19,11 +19,25 @@ def detail_m_k(request: Request, db_session: Session = Depends(get_db)):
                                        "detail_operations": detail_operations})
 
 @app.post('/add_detail_m_k')
-async def add_detail_m_k(detail_id: int = Form(''), detail_operations_id: int = Form(''), seqence: int = Form(''), name: str = Form(''), notes: str = Form(''), db_session: Session = Depends(get_db)):
-    new_detail_m_k = Detail_m_k(detail_id=detail_id, detail_operations_id=detail_operations_id, seqence=seqence, name=name, notes=notes)
-    db_session.add(new_detail_m_k)
+async def add_detail_m_k(request: Request, db_session: Session = Depends(get_db)):
+    form = await request.form()
+
+    # Get a list of indices from the form fields
+    indices = set(int(key.split('_')[-1]) for key in form.keys() if key.startswith('detail_id_'))
+
+    for index in indices:
+        detail_id = form.get(f'detail_id_{index}')
+        detail_operations_id = form.get(f'detail_operations_id_{index}')
+        seqence = form.get(f'seqence_{index}')
+        name = form.get('name')
+        notes = form.get('notes')
+
+        new_detail_m_k = Detail_m_k(detail_id=detail_id, detail_operations_id=detail_operations_id, seqence=seqence, name=name, notes=notes)
+        db_session.add(new_detail_m_k)
+
     db_session.commit()
-    return new_detail_m_k
+    return RedirectResponse(url=app.url_path_for('detail_m_k'), status_code=HTTP_303_SEE_OTHER)
+
 
 @app.get('/edit_detail_m_k/{detail_m_k_id}')
 def edit_detail_m_k(request: Request, detail_m_k_id: int, db_session: Session = Depends(get_db)):
