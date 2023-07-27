@@ -12,7 +12,7 @@
         <form id="add-detail_m_k-form" class="ui large form">
             <div class="ui segment">
                 <div class="field">
-                    <label>Нови МАРШРУТ ДЛЯ ДЕТАЛЕЙ</label>
+                    <label>Новий МАРШРУТ ДЛЯ ДЕТАЛЕЙ</label>
                     <div class="field">
                         <label>ID Деталі</label>
                         <select name="detail_id">
@@ -26,20 +26,25 @@
                             {% endfor %}
                         </select>
                     </div>
-                <div class="field">
-                    <label>ID Операції</label>
-                    <select name="detail_operations_id">
-                        {% for detail_operation in detail_operations %}
-                        <option value="{{ detail_operation.id }}">{{ detail_operation.operations.coding }} - {{ detail_operation.operations.name }} - {{ detail_operation.detail.coding }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Послідовність</label>
-                    <div class="ui input">
-                        <input type="number" name="seqence" placeholder="Послідовність">
+                       <div class="field">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <label>ID Операції</label>
+                                <select name="detail_operations_id">
+                                    {% for detail_operation in detail_operations %}
+                                    <option value="{{ detail_operation.id }}">{{ detail_operation.detail.coding }} - {{ detail_operation.detail.name }} - {{ detail_operation.operations.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="column">
+                                <label>Послідовність</label>
+                                <div class="ui input">
+                                    <input type="number" name="seqence" placeholder="Послідовність">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
                 <div class="ui input">
                     <input type="text" name="name" placeholder="НАЗВА">
                 </div>
