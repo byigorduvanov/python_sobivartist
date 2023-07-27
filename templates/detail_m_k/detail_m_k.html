@@ -26,32 +26,23 @@
                             {% endfor %}
                         </select>
                     </div>
-                       <div class="field">
-                        <div class="ui two column grid">
-                            <div class="column">
-                                <label>ID Операції</label>
-                                <select name="detail_operations_id">
-                                    {% for detail_operation in detail_operations %}
-                                    <option value="{{ detail_operation.id }}">{{ detail_operation.detail.coding }} - {{ detail_operation.detail.name }} - {{ detail_operation.operations.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="column">
-                                <label>Послідовність</label>
-                                <div class="ui input">
-                                    <input type="number" name="seqence" placeholder="Послідовність">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                <div class="ui input">
-                    <input type="text" name="name" placeholder="НАЗВА">
+                <div id="new-fields"></div>
+                <br>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="name" placeholder="НАЗВА">
+                    </div>
                 </div>
-                <div class="ui input">
-                    <input type="text" name="notes" placeholder="НОТАТКИ">
+                 <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="notes" placeholder="НОТАТКИ">
+                    </div>
+                 </div>
                 </div>
-                </div>
+             <div class="field">
+                <button type="button" class="add-field ui teal button">ДОБАВИТИ ПОЛЕ ДЛЯ ОПЕРАЦІЇ</button>
+             </div>
                 <button class="ui fluid large teal submit button" type="submit">Добавити</button>
             </div>
         </form>
@@ -75,7 +66,7 @@
                 <tr>
                     <td>{{ detail_m_k.id }}</td>
                     <td>{{ detail_m_k.detail.coding }} - {{ detail_m_k.detail.name }}</td>
-                    <td>{{ detail_m_k.detail_operations.operations.coding }} - {{ detail_m_k.detail_operations.operations.name }} - {{ detail_m_k.detail_operations.detail.coding }}</td>
+                    <td>{{ detail_m_k.detail_operations.detail.coding }} - {{ detail_m_k.detail_operations.operations.name }} - {{ detail_m_k.detail_operations.operations.coding }}</td>
                     <td>{{ detail_m_k.seqence }}</td>
                     <td>{{ detail_m_k.name }}</td>
                     <td>{{ detail_m_k.notes }}</td>
@@ -90,6 +81,47 @@
     </div>
 </div>
 <script>
+const addButton = document.querySelector('.add-field');
+    let fieldIndex = 1;
+
+    addButton.addEventListener('click', function() {
+        const detailId = document.querySelector('select[name="detail_id"]').value;
+
+        // create new fields
+        const newFieldHtml = `
+            <div class="field">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <label>ID Операції</label>
+                        <select name="detail_operations_id_${fieldIndex}">
+                            {% for detail_operation in detail_operations %}
+                            <option value="{{ detail_operation.id }}">{{ detail_operation.detail.coding }} - {{ detail_operation.detail.name }} - {{ detail_operation.operations.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="column">
+                        <label>Послідовність</label>
+                        <div class="ui input">
+                            <input type="number" name="seqence_${fieldIndex}" placeholder="Послідовність">
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="detail_id_${fieldIndex}" value="${detailId}">
+                            <div>
+                <button class="ui red button delete-field" type="button">Видалити</button>
+            </div>
+            </div>
+        `;
+
+        document.getElementById('new-fields').insertAdjacentHTML('beforeend', newFieldHtml);
+        fieldIndex += 1;
+    });
+document.addEventListener('click', function(event) {
+    if (event.target && event.target.classList.contains('delete-field')) {
+        event.target.parentElement.parentElement.remove();
+    }
+});
+
 document.getElementById('add-detail_m_k-form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const form = event.target;
