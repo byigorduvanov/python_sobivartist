@@ -14,7 +14,7 @@
     <form class="ui form" action="{{ url_for('for_operationally') }}" method="post">
         <div class="field">
             <label>ДЕТАЛЬ</label>
-            <select name="A">
+            <select name="A" id="details-dropdown">
                 {% for details in detail_list %}
                     <option value="{{ details.id }}">{{ details.coding }} - {{ details.name }}</option>
                 {% endfor %}
@@ -53,5 +53,11 @@
         </tbody>
     </table>
 </div>
-
+<script>
+$(document).ready(function() {
+    $('#details-dropdown').select2({
+        width: '100%',
+    });
+});
+</script>
 {% endblock content %}
