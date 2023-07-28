@@ -62,7 +62,7 @@ def dele_spec(db_session: Session = Depends(get_db)):
 @app.post('/specification')
 def specification(A: int = Form(...), db_session: Session = Depends(get_db)):
     for row in db_session.query(Detail, Collective).filter(Collective.detail_id == Detail.id).filter(
-            Collective.collective_id == A).group_by(Collective.sequence_number):
+            Collective.collective_id == A).group_by(Collective.sequence_number, Detail.id, Collective.id):
         new_Specification = Specification(coding=row.Detail.coding, name=row.Detail.name, number=row.Collective.number)
         db_session.add(new_Specification)
         db_session.commit()

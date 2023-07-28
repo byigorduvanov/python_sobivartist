@@ -9,8 +9,8 @@ class Material(Base):
     id = Column(Integer, Sequence('materials_id_seq'), primary_key=True, index=True)
     marka = Column(String)                                                  # Марка матеріалу
     profile = Column(String)                                                # Профіль
-    weight= Column(Float)                                                   # Вага п/м
-    price= Column(Float)                                                    # Ціна за 1т.
+    weight = Column(Float)                                                   # Вага п/м
+    price = Column(Float)                                                    # Ціна за 1т.
     notes = Column(String)                                                  #
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
