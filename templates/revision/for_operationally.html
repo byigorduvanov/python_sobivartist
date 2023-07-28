@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 <div class="ui container">
     <div class="ui padded segment">
         <div class="ui center aligned container">
@@ -11,10 +12,11 @@
     </div>
 
     <h1 class="ui center aligned header ">ВИВЕСТИ ПО ОПЕРАЦІЙНО</h1>
+
     <form class="ui form" action="{{ url_for('for_operationally') }}" method="post">
         <div class="field">
             <label>ДЕТАЛЬ</label>
-            <select name="A">
+            <select name="A" id="details-dropdown">
                 {% for details in detail_list %}
                     <option value="{{ details.id }}">{{ details.coding }} - {{ details.name }}</option>
                 {% endfor %}
@@ -22,6 +24,8 @@
             <button class="ui teal  button" type="submit">ВИВЕСТИ ПО ОПЕРАЦІЙНО</button>
         </div>
     </form>
+
+
 
     <h2 class="ui center aligned header">ДЕТАЛІ</h2>
     <table class="ui celled table">
@@ -53,5 +57,14 @@
         </tbody>
     </table>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('#details-dropdown').select2({
+        width: '100%',
+    });
+});
+</script>
+
 
 {% endblock content %}
