@@ -5,7 +5,7 @@ from starlette.status import HTTP_303_SEE_OTHER
 from database.base import get_db
 from main import app, templates
 from sqlalchemy import or_, desc, asc
-# from tables.tables import Detail_m_k, Detail, Detail_Operations
+from tables.tables import Detail_m_k, Detail, Detail_Operations
 
 @app.get('/detail_m_k')
 def detail_m_k(request: Request, db_session: Session = Depends(get_db)):
