@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, VARCHAR
+from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, VARCHAR, Sequence
 from database.base import Base, engine
 from sqlalchemy.orm import relationship
 from sqlalchemy import DateTime
@@ -6,7 +6,7 @@ from datetime import datetime
 
 class Material(Base):
     __tablename__ = 'materials'
-    id = Column(Integer, primary_key=True, index=True)                      #
+    id = Column(Integer, Sequence('materials_id_seq'), primary_key=True, index=True)
     marka = Column(String)                                                  # Марка матеріалу
     profile = Column(String)                                                # Профіль
     weight= Column(Float)                                                   # Вага п/м
@@ -33,7 +33,7 @@ class Detail(Base):
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
 
     Material = relationship("Material")
-    detail_m_ks = relationship('Detail_m_k', back_populates='detail')
+    # detail_m_ks = relationship('Detail_m_k', back_populates='detail')
 Base.metadata.create_all(bind=engine)
 class Detail_change(Base):
     __tablename__ = 'detail_changes'
@@ -110,54 +110,54 @@ class Material_coming(Base):
 Base.metadata.create_all(bind=engine)
 
 #===============ПО ОПЕРАЦІЙНО======================#
-class Detail_m_k(Base):
-    __tablename__ = 'detail_m_k'
-    id = Column(Integer, primary_key=True, index=True)
-    detail_id = Column(Integer, ForeignKey("details.id"))
-    detail_operations_id = Column(Integer, ForeignKey("detail_operations.id"))
-    seqence = Column(Integer)
-    name = Column(String)
-    notes = Column(String)
-    date_created = Column(DateTime, default=datetime.today)
-    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-
-    detail = relationship('Detail', back_populates='detail_m_ks')
-    detail_operations = relationship('Detail_Operations')
-Base.metadata.create_all(bind=engine)
-
-class Operations(Base):
-    __tablename__ = 'operations'
-    id = Column(Integer, primary_key=True, index=True)
-    coding = Column(String)
-    name = Column(String)
-    type = Column(String)
-    notes = Column(String)
-    date_created = Column(DateTime, default=datetime.today)
-    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
-
-class Detail_Operations(Base):
-    __tablename__ = 'detail_operations'
-    id = Column(Integer, primary_key=True, index=True)
-    detail_id = Column(Integer, ForeignKey("details.id"))
-    operations_id = Column(Integer, ForeignKey("operations.id"))
-    name = Column(String)
-    type = Column(String)
-    notes = Column(String)
-    date_created = Column(DateTime, default=datetime.today)
-    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-
-    detail = relationship("Detail", backref="detail_operations")
-    operations = relationship("Operations", backref="detail_operations")
-    detail_m_ks = relationship('Detail_m_k', back_populates='detail_operations')
-Base.metadata.create_all(bind=engine)
-class Normu_kilkist(Base):
-    __tablename__ = 'normu_kilkist'
-    id = Column(Integer, primary_key=True, index=True)
-    id_operations = Column(Integer, ForeignKey("operations.id"))
-    kilkist = Column(String)
-    name = Column(String)
-    notes = Column(String)
-    date_created = Column(DateTime, default=datetime.today)
-    date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+# class Detail_m_k(Base):
+#     __tablename__ = 'detail_m_k'
+#     id = Column(Integer, primary_key=True, index=True)
+#     detail_id = Column(Integer, ForeignKey("details.id"))
+#     detail_operations_id = Column(Integer, ForeignKey("detail_operations.id"))
+#     seqence = Column(Integer)
+#     name = Column(String)
+#     notes = Column(String)
+#     date_created = Column(DateTime, default=datetime.today)
+#     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+#
+#     detail = relationship('Detail', back_populates='detail_m_ks')
+#     detail_operations = relationship('Detail_Operations')
+# Base.metadata.create_all(bind=engine)
+#
+# class Operations(Base):
+#     __tablename__ = 'operations'
+#     id = Column(Integer, primary_key=True, index=True)
+#     coding = Column(String)
+#     name = Column(String)
+#     type = Column(String)
+#     notes = Column(String)
+#     date_created = Column(DateTime, default=datetime.today)
+#     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+# Base.metadata.create_all(bind=engine)
+#
+# class Detail_Operations(Base):
+#     __tablename__ = 'detail_operations'
+#     id = Column(Integer, primary_key=True, index=True)
+#     detail_id = Column(Integer, ForeignKey("details.id"))
+#     operations_id = Column(Integer, ForeignKey("operations.id"))
+#     name = Column(String)
+#     type = Column(String)
+#     notes = Column(String)
+#     date_created = Column(DateTime, default=datetime.today)
+#     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+#
+#     detail = relationship("Detail", backref="detail_operations")
+#     operations = relationship("Operations", backref="detail_operations")
+#     detail_m_ks = relationship('Detail_m_k', back_populates='detail_operations')
+# Base.metadata.create_all(bind=engine)
+# class Normu_kilkist(Base):
+#     __tablename__ = 'normu_kilkist'
+#     id = Column(Integer, primary_key=True, index=True)
+#     id_operations = Column(Integer, ForeignKey("operations.id"))
+#     kilkist = Column(String)
+#     name = Column(String)
+#     notes = Column(String)
+#     date_created = Column(DateTime, default=datetime.today)
+#     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+# Base.metadata.create_all(bind=engine)

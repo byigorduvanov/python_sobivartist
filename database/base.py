@@ -12,8 +12,7 @@ if not os.path.exists(db_path):
 
 Base = declarative_base()
 
-engine = create_engine(settings.db_url, connect_args={'check_same_thread': False}, echo=True)
-
+engine = create_engine(settings.db_url, echo=True)
 
 def get_db():
     db_session_local = SessionLocal()

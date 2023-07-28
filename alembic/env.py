@@ -26,7 +26,8 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
-from tables.tables import Material,Detail,Detail_change,Serie,Vavle,Collective,Norm_year,Material_coming,Detail_m_k, Operations, Normu_kilkist
+from tables.tables import Material,Detail,Detail_change,Serie,Vavle,Collective,Norm_year,Material_coming
+# Detail_m_k, Operations, Normu_kilkist
 from tables.tables_zero import Specification, Cost
 
 # other values from the config, defined by the needs of env.py,
