@@ -96,3 +96,17 @@ python_oblick/
 │   └── database.py
 │
 └── requirements.txt
+
+
+щоб працювали нові таблиці на сервері
+CREATE SEQUENCE detail_m_k_id_seq;
+ALTER TABLE detail_m_k ALTER COLUMN id SET DEFAULT nextval('detail_m_k_id_seq');
+
+CREATE SEQUENCE detail_operations_id_seq;
+ALTER TABLE detail_operations ALTER COLUMN id SET DEFAULT nextval('detail_operations_id_seq');
+
+CREATE SEQUENCE operations_id_seq;
+ALTER TABLE operations ALTER COLUMN id SET DEFAULT nextval('operations_id_seq');
+
+CREATE SEQUENCE normu_kilkist_id_seq;
+ALTER TABLE normu_kilkist ALTER COLUMN id SET DEFAULT nextval('normu_kilkist_id_seq');

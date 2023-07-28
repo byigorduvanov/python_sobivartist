@@ -27,6 +27,10 @@ def post_for_operationally(request: Request, A: str = Form(...), db_session: Ses
     materials = db_session.query(Material).all()
     details = db_session.query(Detail).all()
 
+    # Fetch detail_list and material_list
+    materials = db_session.query(Material).all()
+    details = db_session.query(Detail).all()
+
     return templates.TemplateResponse('/revision/for_operationally.html',
                                       {'request': request,
                                        'detail_m_k_list': detail_m_k_data,

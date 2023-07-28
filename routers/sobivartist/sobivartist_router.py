@@ -32,10 +32,21 @@ def cost(request: Request, db_session: Session = Depends(get_db)):
 @app.post('/cost')
 def cost(A: int = Form(...), db_session: Session = Depends(get_db)):
     # new_collective_id = Collective(collective_id = A)
-    for row in db_session.query(Detail, Collective, Material, Norm_year).filter(Collective.detail_id == Detail.id,
-                                                                                Detail.material_id == Material.id,
-                                                                                Norm_year.detail_id == Detail.id).filter(
-            Collective.collective_id == A).group_by(Collective.sequence_number):
+    for row in db_session.query(Detail, Collective, Material, Norm_year). \
+            filter(Collective.detail_id == Detail.id, Detail.material_id == Material.id,
+                   Norm_year.detail_id == Detail.id). \
+            filter(Collective.collective_id == A). \
+            group_by(Detail.id, Detail.coding, Detail.name, Detail.product_type, Detail.material_id,
+                     Detail.lenght_workpiece, Detail.width_workpiece, Detail.trimming,
+                     Detail.lenght_detail, Detail.rate_costs, Detail.notes, Detail.price,
+                     Detail.date_created, Detail.date_updated, Collective.id, Collective.collective_id,
+                     Collective.collective_coding, Collective.sequence_number, Collective.detail_id,
+                     Collective.number, Collective.notes, Collective.date_created, Collective.date_updated,
+                     Material.id, Material.marka, Material.profile, Material.weight, Material.price,
+                     Material.notes, Material.date_created, Material.date_updated, Norm_year.id,
+                     Norm_year.detail_id, Norm_year.norm_year_coding, Norm_year.norm_years, Norm_year.notes,
+                     Norm_year.date_created, Norm_year.date_updated):
+
         rate_costs = round(((row.Material.weight / 1000) * row.Detail.rate_costs), 4)
         rates_costs = rate_costs * row.Collective.number
 
@@ -70,10 +81,21 @@ def dele_cost(db_session: Session = Depends(get_db)):
 @app.post('/excel')
 def excel(A: int = Form(...), db_session: Session = Depends(get_db)):
     # new_collective_id = Collective(collective_id = A)
-    for row in db_session.query(Detail, Collective, Material, Norm_year).filter(Collective.detail_id == Detail.id,
-                                                                                Detail.material_id == Material.id,
-                                                                                Norm_year.detail_id == Detail.id).filter(
-            Collective.collective_id == A).group_by(Collective.sequence_number):
+    for row in db_session.query(Detail, Collective, Material, Norm_year). \
+            filter(Collective.detail_id == Detail.id, Detail.material_id == Material.id,
+                   Norm_year.detail_id == Detail.id). \
+            filter(Collective.collective_id == A). \
+            group_by(Detail.id, Detail.coding, Detail.name, Detail.product_type, Detail.material_id,
+                     Detail.lenght_workpiece, Detail.width_workpiece, Detail.trimming,
+                     Detail.lenght_detail, Detail.rate_costs, Detail.notes, Detail.price,
+                     Detail.date_created, Detail.date_updated, Collective.id, Collective.collective_id,
+                     Collective.collective_coding, Collective.sequence_number, Collective.detail_id,
+                     Collective.number, Collective.notes, Collective.date_created, Collective.date_updated,
+                     Material.id, Material.marka, Material.profile, Material.weight, Material.price,
+                     Material.notes, Material.date_created, Material.date_updated, Norm_year.id,
+                     Norm_year.detail_id, Norm_year.norm_year_coding, Norm_year.norm_years, Norm_year.notes,
+                     Norm_year.date_created, Norm_year.date_updated):
+
         rate_costs = round(((row.Material.weight / 1000) * row.Detail.rate_costs), 4)
         rates_costs = rate_costs * row.Collective.number
 
