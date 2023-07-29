@@ -1,3 +1,5 @@
+docker run -d -p 7744:8000 python_sobivartist
+http://127.0.0.1:7744/
 python_sobivartist
 ├───alembic/
 │   └───versions
