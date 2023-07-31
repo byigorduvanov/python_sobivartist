@@ -14,7 +14,7 @@ class Material(Base):
     notes = Column(String)                                                  #
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+
 class Detail(Base):
     __tablename__ = 'details'
     id = Column(Integer, Sequence('details_id_seq'), primary_key=True, index=True)
@@ -34,7 +34,7 @@ class Detail(Base):
 
     Material = relationship("Material")
     detail_m_ks = relationship('Detail_m_k', back_populates='detail')
-Base.metadata.create_all(bind=engine)
+
 class Detail_change(Base):
     __tablename__ = 'detail_changes'
     id = Column(Integer, Sequence('detail_changes_id_seq'), primary_key=True, index=True)
@@ -52,7 +52,7 @@ class Detail_change(Base):
     price = Column(Float)                                                   # ціна
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+
 class Serie(Base):
     __tablename__ = 'series'
     id = Column(Integer, Sequence('series_id_seq'), primary_key=True, index=True)
@@ -60,7 +60,7 @@ class Serie(Base):
     notes = Column(String)                                                  # 
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+
 class Vavle(Base):
     __tablename__ = 'vavles'
     id = Column(Integer, Sequence('vavles_id_seq'), primary_key=True, index=True)
@@ -71,7 +71,7 @@ class Vavle(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+
 class Collective(Base):
     __tablename__ = 'colectives'
     id = Column(Integer, Sequence('colectives_id_seq'), primary_key=True, index=True)
@@ -84,7 +84,7 @@ class Collective(Base):
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)         
     Detail = relationship("Detail")
-Base.metadata.create_all(bind=engine)
+
 class Norm_year(Base):
     __tablename__ = 'norm_years'
     id = Column(Integer, Sequence('norm_years_id_seq'), primary_key=True, index=True)                    #
@@ -95,7 +95,7 @@ class Norm_year(Base):
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)         
     Detail = relationship("Detail")
-Base.metadata.create_all(bind=engine)
+
 
 class Material_coming(Base):
     __tablename__ = 'material_comings'
@@ -107,7 +107,7 @@ class Material_coming(Base):
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
     Material = relationship("Material")
-Base.metadata.create_all(bind=engine)
+
 
 # ===============ПО ОПЕРАЦІЙНО======================#
 class Detail_m_k(Base):
@@ -120,10 +120,9 @@ class Detail_m_k(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-
     detail = relationship('Detail', back_populates='detail_m_ks')
-    detail_operations = relationship('Detail_Operations')
-Base.metadata.create_all(bind=engine)
+    detail_operations = relationship('Detail_Operations', back_populates='detail_m_ks')  # Changed this line
+
 
 class Operations(Base):
     __tablename__ = 'operations'
@@ -134,7 +133,7 @@ class Operations(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-Base.metadata.create_all(bind=engine)
+
 
 class Detail_Operations(Base):
     __tablename__ = 'detail_operations'
@@ -146,11 +145,10 @@ class Detail_Operations(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
-
     detail = relationship("Detail", backref="detail_operations")
     operations = relationship("Operations", backref="detail_operations")
-    detail_m_ks = relationship('Detail_m_k', back_populates='detail_operations')
-Base.metadata.create_all(bind=engine)
+    detail_m_ks = relationship('Detail_m_k', back_populates='detail_operations')  # Changed this line
+
 class Normu_kilkist(Base):
     __tablename__ = 'normu_kilkist'
     id = Column(Integer, primary_key=True, index=True)
@@ -160,4 +158,6 @@ class Normu_kilkist(Base):
     notes = Column(String)
     date_created = Column(DateTime, default=datetime.today)
     date_updated = Column(DateTime, default=datetime.today, onupdate=datetime.today)
+
+
 Base.metadata.create_all(bind=engine)

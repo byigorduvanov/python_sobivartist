@@ -48,7 +48,7 @@
         </form>
     </div>
     <div class="ui segment">
-        <h1 class="ui center aligned header teal">Модулі</h1>
+        <h1 class="ui center aligned header teal">Виведення таблиці маршрутних карт для деталей</h1>
         <table class="ui celled table">
             <thead>
                 <tr>
@@ -82,59 +82,71 @@
 </div>
 <script>
 const addButton = document.querySelector('.add-field');
-    let fieldIndex = 1;
+let fieldIndex = 1;
 
-    addButton.addEventListener('click', function() {
-        const detailId = document.querySelector('select[name="detail_id"]').value;
+addButton.addEventListener('click', function() {
+    const detailId = document.querySelector('select[name="detail_id"]').value;
 
-        // create new fields
-        const newFieldHtml = `
-            <div class="field">
-                <div class="ui two column grid">
-                    <div class="column">
-                        <label>ID Операції</label>
-                        <select name="detail_operations_id_${fieldIndex}">
-                            {% for detail_operation in detail_operations %}
-                            <option value="{{ detail_operation.id }}">{{ detail_operation.detail.coding }} - {{ detail_operation.detail.name }} - {{ detail_operation.operations.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="column">
-                        <label>Послідовність</label>
-                        <div class="ui input">
-                            <input type="number" name="seqence_${fieldIndex}" placeholder="Послідовність">
-                        </div>
+    // create new fields
+    const newFieldHtml = `
+        <div class="field">
+            <div class="ui two column grid">
+                <div class="column">
+                    <label>ID деталі для операції</label>
+                    <select name="detail_operations_id[]">
+                        {% for detail in details %}
+                        <option value="{{ detail.id }}">
+                            {{ detail.coding }} - {{ detail.name }}
+                            {% if detail.Material %}
+                            ({{ detail.Material.profile }}, {{ detail.Material.marka }})
+                            {% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                 <div class="column">
+                    <label>ID Операції</label>
+                    <select name="operations_id[]">
+                        {% for operation in operations %}
+                        <option value="{{ operation.id }}">{{ operation.coding }} - {{ operation.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="column">
+                    <label>Послідовність</label>
+                    <div class="ui input">
+                        <input type="number" name="sequence[]" placeholder="Послідовність">
                     </div>
                 </div>
-                <input type="hidden" name="detail_id_${fieldIndex}" value="${detailId}">
-                            <div>
-                <button class="ui red button delete-field" type="button">Видалити</button>
             </div>
-            </div>
-        `;
 
-        document.getElementById('new-fields').insertAdjacentHTML('beforeend', newFieldHtml);
-        fieldIndex += 1;
-    });
+            <button class="ui red button delete-field" type="button">Видалити</button>
+        </div>
+        </div>
+    `;
+
+    document.getElementById('new-fields').insertAdjacentHTML('beforeend', newFieldHtml);
+    fieldIndex += 1;
+});
 document.addEventListener('click', function(event) {
-    if (event.target && event.target.classList.contains('delete-field')) {
-        event.target.parentElement.parentElement.remove();
-    }
+if (event.target && event.target.classList.contains('delete-field')) {
+    event.target.parentElement.parentElement.remove();
+}
 });
 
 document.getElementById('add-detail_m_k-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
-    const response = await fetch('/add_detail_m_k', {
-        method: 'POST',
-        body: formData,
-    });
-    if (!response.ok) {
-        console.error('Error:', response.statusText);
-        return;
-    }
-    window.location.reload();
+event.preventDefault();
+const form = event.target;
+const formData = new FormData(form);
+const response = await fetch('/add_detail_m_k', {
+    method: 'POST',
+    body: formData,
+});
+if (!response.ok) {
+    console.error('Error:', response.statusText);
+    return;
+}
+window.location.reload();
 });
     async function deleteDetail_M_K(detail_m_kId) {
         if (!confirm('Ви дійсно хочете видалити цю операцію?')) {

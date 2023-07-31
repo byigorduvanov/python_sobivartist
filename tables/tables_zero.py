@@ -8,7 +8,7 @@ class Specification(Base):
     coding = Column(String)         # Кодування
     name = Column(String)           # Найменування
     number = Column(String)         # Кількість
-Base.metadata.create_all(bind=engine)
+
 
 
 class Cost(Base):
@@ -27,5 +27,8 @@ class Cost(Base):
     norms_years = Column(Float)     # Нормо годин
     norms_sec = Column(Float)       #Норма в секундах
     price_kg = Column(Float)        # Ціна за кг.
+
+
+
 Base.metadata.create_all(bind=engine)
 
